@@ -25,6 +25,13 @@ public class Main {
     }
   }
 
+  public static void wait(int ms) {
+    try {
+      Thread.sleep(ms);
+    } catch (InterruptedException e) {
+      // Ignore
+    }
+  }
   public static void waitForValidWindowSize() {
     while (true) {
       int[] size = getTerminalSize();
@@ -66,9 +73,35 @@ public class Main {
     for (String fg : Colors.FOREGROUNDS) {
       for (String bg : Colors.BACKGROUNDS) {
         System.out.print(fg + bg + "  [X]  " + Colors.RESET);
+        wait(2);
       }
     }
 
+    wait(500);
+    clearScreen();
+
+    // list of grid locations of the player
+    int[] pl = { 10,2 };
+    
+
+    // 100 by 100 grid
+    for (int y = 0; y < 30; y++) {
+      for (int x = 0; x < 30; x++) {
+        if (x == 29 || y == 29 || x == 0 || y == 0) {
+          System.out.print( Colors.WHITE + Colors.BOLD + "██" + Colors.RESET);  
+         
+        } else {
+          if (x == pl[0] && y == pl[1]) {
+            System.out.print(Colors.GREEN + Colors.BOLD + " X" + Colors.RESET);
+            
+          } else {
+            System.out.print(Colors.DIM + " ·" + Colors.RESET);
+          }
+        }
+        wait(1);
+      }
+      System.out.println();
+    }
     
   }
 }
