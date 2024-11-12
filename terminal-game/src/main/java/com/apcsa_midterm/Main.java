@@ -2,6 +2,9 @@ package com.apcsa_midterm;
 
 import java.io.IOException;
 
+
+
+
 public class Main {
     
   private static final int MIN_WIDTH = 80;
@@ -80,28 +83,8 @@ public class Main {
     wait(500);
     clearScreen();
 
-    // list of grid locations of the player
-    int[] pl = { 10,2 };
-    
-
-    // 100 by 100 grid
-    for (int y = 0; y < 30; y++) {
-      for (int x = 0; x < 30; x++) {
-        if (x == 29 || y == 29 || x == 0 || y == 0) {
-          System.out.print( Colors.WHITE + Colors.BOLD + "██" + Colors.RESET);  
-         
-        } else {
-          if (x == pl[0] && y == pl[1]) {
-            System.out.print(Colors.GREEN + Colors.BOLD + " X" + Colors.RESET);
-            
-          } else {
-            System.out.print(Colors.DIM + " ·" + Colors.RESET);
-          }
-        }
-        wait(1);
-      }
-      System.out.println();
-    }
-    
+    //create a map class
+    Map map = new Map(30, 30);
+    map.createGrid();
   }
 }
