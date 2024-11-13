@@ -73,18 +73,20 @@ public class Main {
   public static void main(String[] args) {
     waitForValidWindowSize();
 
-    for (String fg : Colors.FOREGROUNDS) {
-      for (String bg : Colors.BACKGROUNDS) {
-        System.out.print(fg + bg + "  [X]  " + Colors.RESET);
-        wait(2);
+    for (String bg : Colors.BACKGROUNDS) {
+      for (String fg : Colors.FOREGROUNDS) {
+        System.out.print(fg + bg + " [X] " + Colors.RESET);
+        
       }
+      System.out.println();
+      wait(5);
     }
 
     wait(500);
     clearScreen();
 
     //create a map class
-    Map map = new Map(30, 30);
+    Map map = new Map(30, 30, "Map");
     map.createGrid();
   }
 }
