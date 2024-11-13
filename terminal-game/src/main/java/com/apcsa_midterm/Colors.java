@@ -1,7 +1,7 @@
 package com.apcsa_midterm;
 
 public class Colors {
-    // Reset code
+    // Reset code.
     public static final String RESET = "\u001B[0m";
 
     // Regular foreground colors

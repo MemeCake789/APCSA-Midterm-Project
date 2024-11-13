@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Main {
     
-  private static final int MIN_WIDTH = 80;
+  private static final int MIN_WIDTH = 40;
   private static final int MIN_HEIGHT = 24;
 
   public static int[] getTerminalSize() {
@@ -67,7 +67,7 @@ public class Main {
 
   public static void clearScreen() {
     System.out.print("\033[H\033[2J");
-    System.out.flush();
+    System.out.flush();//
   }
 
   public static void main(String[] args) {
@@ -87,6 +87,6 @@ public class Main {
 
     //create a map class
     Map map = new Map(30, 30, "Map");
-    map.createGrid();
+    map.createGrid(map.objectPositions);
   }
 }
