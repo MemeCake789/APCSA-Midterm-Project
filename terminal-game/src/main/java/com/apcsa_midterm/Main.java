@@ -90,6 +90,8 @@ public class Main {
     
     // Draw using the List of objects
     map.draw(map.getObjects());
+    map.drawMap(map.map);
+    map.draw(map.getObjects());
 
     // System.out.println(map.objectPositions[1][0]);
   }

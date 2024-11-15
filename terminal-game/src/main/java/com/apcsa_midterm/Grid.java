@@ -21,6 +21,11 @@ public abstract class Grid {
         }
     }
 
+public static void clearScreen() {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();//
+  }
+
     public boolean isOnBorder(int x, int y) {
         return x == 0 || y == 0 || x == width - 1 || y == height - 1;
     }
@@ -28,7 +33,7 @@ public abstract class Grid {
     public void printBorder(int x, int y) {
         if (y == 0 && x >= 3 && x < 6 + title.length()) {
             if (x == 3 || x == 5 + title.length()) {
-                System.out.print(Colors.BOLD + Colors.WHITE + "──────" + Colors.RESET);
+                System.out.print(Colors.BOLD + Colors.WHITE + "───────" + Colors.RESET);
             } else if (x == 4) {
                 System.out.print(Colors.BOLD + Colors.WHITE + ":" + Colors.RESET);
             } else {
@@ -50,6 +55,7 @@ public abstract class Grid {
     }
 
     public void draw(List<ObjectStorage> objects) {
+        clearScreen();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (isOnBorder(x, y)) {
