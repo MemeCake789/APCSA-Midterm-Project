@@ -66,7 +66,7 @@ public static void clearScreen() {
                     System.out.print(Colors.DIM + "· " + Colors.RESET);
                 }
             }
-            wait(2);
+            // wait(1);
             System.out.println();
         }
     }

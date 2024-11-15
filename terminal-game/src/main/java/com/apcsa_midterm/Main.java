@@ -1,8 +1,7 @@
 package com.apcsa_midterm;
 
 import java.io.IOException;
-
-
+import java.util.Scanner;  // Import the Scanner class
 
 
 public class Main {
@@ -86,13 +85,26 @@ public class Main {
     clearScreen();
 
     // Create map instance
-    Map map = new Map(20, 20, "termSlash");
+    Map map = new Map(20, 20, "termRng");
     
     // Draw using the List of objects
     map.draw(map.getObjects());
     map.drawMap(map.map);
     map.draw(map.getObjects());
+    Player player = new Player(3, 1, "☺ ", map);
 
+    map.draw(map.getObjects());
+
+    Scanner scanner = new Scanner(System.in);
+    // String key = scanner.nextLine();  // Read user input
+    // System.out.println(key);
     // System.out.println(map.objectPositions[1][0]);
-  }
-}
+    while (true) {
+      player.handleMovement(scanner.next().charAt(0));
+      map.draw(map.getObjects());
+    }
+
+
+    // System.err.println(map.getObjects());
+
+  }}
