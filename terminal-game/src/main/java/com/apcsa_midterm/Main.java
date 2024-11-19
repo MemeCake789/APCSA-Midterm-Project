@@ -92,7 +92,7 @@ public class Main {
     map.drawMap(map.map);
     map.draw(map.getObjects());
   Player player = new Player(3, 1, Colors.BRIGHT_GREEN +"X "+Colors.RESET, map);  // Create player
-    Enemy enemy = new Enemy(15, 15, Colors.RED + "✦ "+ Colors.RESET, map, player);  // Create enemy far from player 
+    Enemy enemy = new Enemy(15, 15, Colors.RED + "@ "+ Colors.RESET, map, player);  // Create enemy far from player 
     
     map.draw(map.getObjects());
 

@@ -2,10 +2,19 @@ package com.apcsa_midterm;
 
 import java.util.List;
 
+
+
 public abstract class Grid {
     protected int width;
     protected int height;
     protected String title;
+
+    protected String[] inventory = {
+        "─┬──────────",
+        " │ -Item1",
+        " │ -Item2",
+        " │ -Item3",
+    };
 
     public Grid(int width, int height, String title) {
         this.width = width;
@@ -33,7 +42,7 @@ public static void clearScreen() {
     public void printBorder(int x, int y) {
         if (y == 0 && x >= 3 && x < 6 + title.length()) {
             if (x == 3 || x == 5 + title.length()) {
-                System.out.print(Colors.BOLD + Colors.WHITE + "───────" + Colors.RESET);
+                System.out.print(Colors.BOLD + Colors.WHITE + "──────" + Colors.RESET);
             } else if (x == 4) {
                 System.out.print(Colors.BOLD + Colors.WHITE + ":" + Colors.RESET);
             } else {
@@ -57,6 +66,7 @@ public static void clearScreen() {
     public void draw(List<ObjectStorage> objects) {
         clearScreen();
         for (int y = 0; y < height; y++) {
+        
             for (int x = 0; x < width; x++) {
                 if (isOnBorder(x, y)) {
                     printBorder(x, y);
@@ -66,8 +76,14 @@ public static void clearScreen() {
                     System.out.print(Colors.DIM + "· " + Colors.RESET);
                 }
             }
+// In the draw method, modify the inventory check:
+if(y < inventory.length && inventory[y] != null){
+    System.out.println(inventory[y]);
+} else{
+    System.out.println();
+}
+
             // wait(1);
-            System.out.println();
         }
     }
 

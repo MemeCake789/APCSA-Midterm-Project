@@ -7,11 +7,10 @@ package com.apcsa_midterm;
 public class Enemy {
     private int X;                      // Current X coordinate of the enemy
     private int Y;                      // Current Y coordinate of the enemy
-    private ObjectStorage enemyObject;   // Object representation of enemy in game
+    private ObjectStorage enemyObject;  // Object representation of enemy in game
     private Map map;                    // Reference to game map
     private Player player;     
-    private boolean canMove = false;
-    // Reference to player being chased
+    private boolean canMove = false;     // Flag to track if enemy can move
     
     /**
      * Creates a new enemy at specified coordinates
