@@ -5,9 +5,7 @@ public class Player {
     private int Y;
     private ObjectStorage playerObject;
     private Map map;
-
-    //TODO: stop player from moving through walls
-
+    
     public Player(int startX, int startY, String icon, Map map){
         this.map = map;
         playerObject = new ObjectStorage(startX, startY, icon, "player");
@@ -15,7 +13,15 @@ public class Player {
         this.Y = startY;
         map.getObjects().add(playerObject);
     }
-    
+        private boolean isWallAt(int x, int y) {
+        for (ObjectStorage object : map.getObjects()) {
+            if (object.getX() == x && object.getY() == y && object.getType().equals("map")) {
+                return true;
+            }
+        }
+        return map.isOnBorder(x, y);
+    }
+
     public void handleMovement(char input) {
         int newX = X;
         int newY = Y;
@@ -35,9 +41,12 @@ public class Player {
                 break;
         }
         
-        X = newX;
-        Y = newY;
-        playerObject.move(newX, newY);
+        // Using Grid's isOnBorder method to check boundaries
+        if (!isWallAt(newX, newY)) {
+            X = newX;
+            Y = newY;
+            playerObject.move(newX, newY);
+        }
     }
     
     public ObjectStorage getPlayerObject() {

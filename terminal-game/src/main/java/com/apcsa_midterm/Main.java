@@ -91,17 +91,17 @@ public class Main {
     map.draw(map.getObjects());
     map.drawMap(map.map);
     map.draw(map.getObjects());
-    Player player = new Player(3, 1, "☺ ", map);
-
+  Player player = new Player(3, 1, Colors.BRIGHT_GREEN +"X "+Colors.RESET, map);  // Create player
+    Enemy enemy = new Enemy(15, 15, Colors.RED + "✦ "+ Colors.RESET, map, player);  // Create enemy far from player 
+    
     map.draw(map.getObjects());
 
     Scanner scanner = new Scanner(System.in);
-    // String key = scanner.nextLine();  // Read user input
-    // System.out.println(key);
-    // System.out.println(map.objectPositions[1][0]);
+    
     while (true) {
-      player.handleMovement(scanner.next().charAt(0));
-      map.draw(map.getObjects());
+        player.handleMovement(scanner.next().charAt(0));
+        enemy.moveTowardsPlayer();  // Enemy moves after player's turn
+        map.draw(map.getObjects());
     }
 
 

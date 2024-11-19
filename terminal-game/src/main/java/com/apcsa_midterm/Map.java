@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map extends Grid {
-    private List<ObjectStorage> objects;
+    protected List<ObjectStorage> objects;
 
         public Map(int width, int height, String title) {
         super(width, height, title);
