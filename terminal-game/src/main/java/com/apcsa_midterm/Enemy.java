@@ -9,7 +9,9 @@ public class Enemy {
     private int Y;                      // Current Y coordinate of the enemy
     private ObjectStorage enemyObject;   // Object representation of enemy in game
     private Map map;                    // Reference to game map
-    private Player player;              // Reference to player being chased
+    private Player player;     
+    private boolean canMove = false;
+    // Reference to player being chased
     
     /**
      * Creates a new enemy at specified coordinates
@@ -54,27 +56,25 @@ public void moveTowardsPlayer() {
     
     int newX = X;
     int newY = Y;
+
     
-    // Try primary movement direction
-    if (playerX < X && !isWallAt(X - 1, Y)) {
-        newX = X - 1;
-    } else if (playerX > X && !isWallAt(X + 1, Y)) {
-        newX = X + 1;
-    } else if (playerY < Y && !isWallAt(X, Y - 1)) {
-        newY = Y - 1;
-    } else if (playerY > Y && !isWallAt(X, Y + 1)) {
-        newY = Y + 1;
+    if (playerX == X || playerY == Y) {
+        canMove = true;
     }
-    // Check alternate directions if blocked
-    else if (!isWallAt(X - 1, Y)) {
-        newX = X - 1;
-    } else if (!isWallAt(X + 1, Y)) {
-        newX = X + 1;
-    } else if (!isWallAt(X, Y - 1)) {
-        newY = Y - 1;
-    } else if (!isWallAt(X, Y + 1)) {
-        newY = Y + 1;
+
+    if (canMove){
+        if (playerX < X && !isWallAt(X - 1, Y)) {
+            newX = X - 1;
+        } else if (playerX > X && !isWallAt(X + 1, Y)) {
+            newX = X + 1;
+        } else if (playerY < Y && !isWallAt(X, Y - 1)) {
+            newY = Y - 1;
+        } else if (playerY > Y && !isWallAt(X, Y + 1)) {
+            newY = Y + 1;
+        }
     }
+
+
 
     // Update position if a valid move was found
     if (newX != X || newY != Y) {
