@@ -10,10 +10,11 @@ public abstract class Grid {
     protected String title;
 
     protected String[] inventory = {
-        "─┬──────────",
-        " │ -Item1",
-        " │ -Item2",
-        " │ -Item3",
+        " ┌─:inventory──────┐",
+        " │ -Item1 \t │",
+        " │ -Item2 \t │",
+        " │ -Item3 \t │",
+        " └─────────────────┘",
     };
 
     public Grid(int width, int height, String title) {
