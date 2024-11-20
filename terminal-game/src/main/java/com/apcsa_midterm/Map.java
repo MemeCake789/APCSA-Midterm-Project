@@ -112,17 +112,30 @@ public class Map {
         {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "}
     };
 
+    public ObjectStorage[] mapItems = {
+        new ObjectStorage(8, 2, "♥ ", "item", "Small Potion", "potion", 10),
+        new ObjectStorage(3, 15, "/ ", "item", "Copper Sword", "weapon", 5),
+
+    };
+
+
     public List<ObjectStorage> getObjects() {
         return objects;
     }
 
     public void drawMap(String[][] map) {
+        // add walls to map
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (!map[y][x].equals(" ")) {
                     objects.add(new ObjectStorage(x, y, map[y][x] + map[y][x], "map"));
                 }
             }
+        }
+
+        // add mapItems to map
+        for (ObjectStorage object : mapItems) {
+            objects.add(object);
         }
     }
 }

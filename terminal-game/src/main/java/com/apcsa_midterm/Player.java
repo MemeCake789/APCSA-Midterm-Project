@@ -22,12 +22,28 @@ public class Player {
             " │                                │",
             " │                                │",
             " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
+            " │                                │",
             " └────────────────────────────────┘"
         };
 
+        
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] != null) {
-                inventoryDisplay[i + 1] = " │ " + inventory[i].getIcon() + " " + inventory[i].getName() + "\t\t"+ inventory[i].displayProperty()+"\t│";
+                inventoryDisplay[i + 1] = " │ " + inventory[i].getIcon() + " " + inventory[i].getName() + "\t"+ inventory[i].displayProperty()+"\t│";
             }
         }
         map.inventory = inventoryDisplay;
@@ -45,15 +61,26 @@ public class Player {
     public void handleMovement(char input) {
         int newX = X;
         int newY = Y;
-        
-        switch(Character.toLowerCase(input)) {
-            case 'w': newY--; break;
-            case 's': newY++; break;
-            case 'a': newX--; break;
-            case 'd': newX++; break;
+        if (Character.toLowerCase(input) == 'w') {
+            newY--;
+        } else if (Character.toLowerCase(input) == 's') {
+            newY++;
+        } else if (Character.toLowerCase(input) == 'a') {
+            newX--;
+        } else if (Character.toLowerCase(input) == 'd') {
+            newX++;
         }
         
         if (!isWallAt(newX, newY)) {
+            for (ObjectStorage object : map.getObjects()) {
+                if (object.getX() == newX && object.getY() == newY && object.getType().equals("item")) {
+                    // add item to inventory
+                    addItem(object.getItemName(), object.getIcon(), object.getItemType(), object.getItemProperty());
+                    // remove iem from map 
+                    // I had to move the object out of bounds because idk
+                    object.move(-1000, -1000);
+                }
+            }
             X = newX;
             Y = newY;
             playerObject.move(newX, newY);
@@ -112,7 +139,7 @@ class item {
     public int getProperty() { return property; }
     public String displayProperty() { 
         if (type.equals("weapon")) {
-            return Colors.RED + "🗡 :" + property + Colors.RESET;
+            return Colors.RED + "† :" + property + Colors.RESET;
         } else if (type.equals("armor")) {
             return Colors.BLUE + "⛉ : " + property + Colors.RESET; 
         } else if (type.equals("potion")) {

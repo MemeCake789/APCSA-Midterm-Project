@@ -5,13 +5,42 @@ public class ObjectStorage {
     private int y;
     private String icon;
     private String type;
+    private String itemName;
+    private String itemType;
+    private int itemProperty;
 
     public ObjectStorage(int x, int y, String icon, String type) {
         this.x = x;
         this.y = y;
         this.icon = icon;
         this.type = type;
-    }
+
+        this.itemName = null;
+        this.itemType = null;
+        this.itemProperty = 0;
+    } // default constructor
+
+    public ObjectStorage(int x, int y, String icon, String type, 
+        
+        String itemName ,
+        String itemType, 
+        int itemProperty) { // extra parameters if is a item
+
+        
+        this.x = x;
+        this.y = y;
+        if (itemType.equals("weapon")) {
+            this.icon = Colors.BRIGHT_RED + icon + Colors.RESET;
+        } else if (itemType.equals("armor")) {
+            this.icon = Colors.BLUE + icon  + Colors.RESET; 
+        } else if (itemType.equals("potion")) {
+            this.icon = Colors.BRIGHT_GREEN + icon + Colors.RESET;
+        }
+        this.type = type;
+        this.itemName = itemName;
+        this.itemType = itemType;
+        this.itemProperty = itemProperty;
+    } // item constructor
 
     public void move(int newX, int newY) {
         this.x = newX;
@@ -50,5 +79,16 @@ public class ObjectStorage {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+    public String getItemType() {
+        return itemType;
+    }
+
+    public int getItemProperty() {
+        return itemProperty;
     }
 }

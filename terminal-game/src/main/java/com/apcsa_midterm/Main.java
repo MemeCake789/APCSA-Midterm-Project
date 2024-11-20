@@ -80,8 +80,7 @@ public class Main {
         
         Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map);
         Enemy enemy = new Enemy(15, 15, Colors.RED + "@ " + Colors.RESET, map, player);
-        player.addItem("Small Potion", "♥", "potion", 20);  
-        // TODO: Fix outOfBoundsException (uncomment to test)
+        // player.addItem("Small Potion", "♥", "potion", 20);  
         // player.addItem("Tiny Sword", ">", "weapon", 5);   
         // player.addItem("Rusty Shield", "♦", "shield", 10);
         // player.addItem("Leather Armor", "♠", "armor", 15);
