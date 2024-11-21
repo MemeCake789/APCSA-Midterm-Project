@@ -36,16 +36,18 @@ public class Map {
     }
 
     public void printBorder(int x, int y) {
-        if (y == 0 && x >= 3 && x < 6 + title.length()) {
-            if (x == 3 || x == 5 + title.length()) {
-                System.out.print(Colors.BOLD + Colors.WHITE + "──────" + Colors.RESET);
-            } else if (x == 4) {
-                System.out.print(Colors.BOLD + Colors.WHITE + ":" + Colors.RESET);
-            } else {
-                System.out.print(Colors.BOLD + Colors.WHITE + title.charAt(x - 5) + Colors.RESET);
+        if (y == 0 && x >= 2 && x < 6 + title.length()) {
+            if (x == 2) {
+                System.out.print( Colors.WHITE + ":" + Colors.RESET);
+            } else if (x >= 5 && x < 5 + title.length()) {  // Fixed condition
+                System.out.print( Colors.WHITE + title.charAt(x - 5) + Colors.RESET);
+            } else if (x == 5 + title.length()) {
+                System.out.print( Colors.WHITE + "──────────" + Colors.RESET);
             }
             return;
         }
+    
+    
 
         String borderChar;
         if (x == 0 && y == 0) borderChar = "┌";
@@ -56,7 +58,7 @@ public class Map {
         else if (y == 0 || y == height - 1) borderChar = "──";
         else borderChar = " ";
         
-        System.out.print(Colors.BOLD + Colors.WHITE + borderChar + Colors.RESET);
+        System.out.print(Colors.WHITE + borderChar + Colors.RESET);
     }
 
     public void draw(List<ObjectStorage> objects) {

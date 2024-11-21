@@ -44,6 +44,16 @@ public class Enemy {
         return false;
     }
     
+
+    /**
+     * Checks if the enemy is currently colliding with the player.
+     * @return true if the enemy's coordinates match the player's coordinates, false otherwise.
+     */
+    public boolean isCollidingWithPlayer() {
+        return (this.X == player.getPlayerObject().getX() && 
+                this.Y == player.getPlayerObject().getY());
+    }
+    
     /**
      * Updates enemy position to move towards the player
      * Implements simple chase AI that moves in both X and Y directions
@@ -80,6 +90,10 @@ public void moveTowardsPlayer() {
         X = newX;
         Y = newY;
         enemyObject.move(newX, newY);
+    }
+
+    if (isCollidingWithPlayer()) {
+        
     }
 }
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    private static final int MIN_WIDTH = 35;
+    private static final int MIN_WIDTH = 75;
     private static final int MIN_HEIGHT = 24;
 
     public static int[] getTerminalSize() {
@@ -75,11 +75,11 @@ public class Main {
         clearScreen();
 
         // Initialize game components
-        Map map = new Map(20, 20, "termRng");
+        Map map = new Map(20, 20, "map");
         map.drawMap(map.map);
         
         Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map);
-        Enemy enemy = new Enemy(15, 15, Colors.RED + "@ " + Colors.RESET, map, player);
+        Enemy enemy = new Enemy(15, 15, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player);
         // player.addItem("Small Potion", "♥", "potion", 20);  
         // player.addItem("Tiny Sword", ">", "weapon", 5);   
         // player.addItem("Rusty Shield", "♦", "shield", 10);
