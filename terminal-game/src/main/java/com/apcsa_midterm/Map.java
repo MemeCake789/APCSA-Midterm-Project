@@ -8,13 +8,36 @@ public class Map {
     protected int height;
     protected String title;
     protected List<ObjectStorage> objects;
-
+    protected String screen;
+    private String[] attackScreen = {
+        " ┌─:battle─────────────────────────────┐",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " │                                     │",
+        " └─────────────────────────────────────┘"
+    };
     protected String[] inventory = {    };
 
     public Map(int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;
+        this.screen = "attack";
         objects = new ArrayList<>();
     }
 
@@ -24,6 +47,9 @@ public class Map {
         } catch (InterruptedException e) {
             // Ignore
         }
+    }
+    public void setScreen(String screenType) {
+        this.screen = screenType;
     }
 
     public static void clearScreen() {
@@ -63,22 +89,39 @@ public class Map {
 
     public void draw(List<ObjectStorage> objects) {
         clearScreen();
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (isOnBorder(x, y)) {
-                    printBorder(x, y);
-                } else if (getCell(x, y, objects) != null) {
-                    System.out.print(Colors.BRIGHT_WHITE + Colors.BOLD + getCell(x, y, objects) + Colors.RESET);
-                } else {
-                    System.out.print(Colors.DIM + "· " + Colors.RESET);
+        if (screen.equals("map")) {
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (isOnBorder(x, y)) {
+                        printBorder(x, y);
+                    } else if (getCell(x, y, objects) != null) {
+                        System.out.print(Colors.BRIGHT_WHITE + Colors.BOLD + getCell(x, y, objects) + Colors.RESET);
+                    } else {
+                        System.out.print(Colors.DIM + "· " + Colors.RESET);
+                    }
+                }
+                if(y < inventory.length && inventory[y] != null){
+                    System.out.println(inventory[y]);
+                } else{
+                    System.out.println();
                 }
             }
-            if(y < inventory.length && inventory[y] != null){
-                System.out.println(inventory[y]);
-            } else{
-                System.out.println();
+            
+        } else if (screen.equals("attack")) {
+            for (int i = 0; i < attackScreen.length; i++) {
+                System.out.print(attackScreen[i]);
+                if(i < inventory.length && inventory[i] != null){
+                    System.out.println(inventory[i]);
+                } else{
+                    System.out.println();
+                }
             }
+            
+        } {
+            
         }
+        
     }
 
     public String getCell(int x, int y, List<ObjectStorage> objects) {
