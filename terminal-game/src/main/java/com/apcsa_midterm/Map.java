@@ -10,26 +10,26 @@ public class Map {
     protected List<ObjectStorage> objects;
     protected String screen;
     private String[] attackScreen = {
-        " ┌─:battle─────────────────────────────┐",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " │                                     │",
-        " └─────────────────────────────────────┘"
+" ┌─:battle─────────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │░  ░  ░  ░  ░  ░  ░     ░  ░  ░  ░  ░│",
+" │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░  │",
+" │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  ░ │",
+" │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░  ░│",
+" │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░  │",
+" │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  ░ │",
+" │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░  ░│",
+" │ ░  ░  ░     █░ ░│ ░  ░▓█   ░  ░  ░  │",
+" ├───────────░█▓███└─  ███─────────────┤",
+" │          ░█▓▓        ░██            │",
+" │         ▓█▓           ░▓█░          │",
+" │       █▓░               ▓█▓░        │",
+" │                                     │",
+" │                                     │",
+" │                                     │",
+" └─────────────────────────────────────┘" 
     };
     protected String[] inventory = {    };
 
@@ -110,17 +110,32 @@ public class Map {
             
         } else if (screen.equals("attack")) {
             for (int i = 0; i < attackScreen.length; i++) {
-                System.out.print(attackScreen[i]);
+                String line = attackScreen[i];
+                for (int j = 0; j < line.length(); j++) {
+                    char c = line.charAt(j);
+                    if (c == '░') {
+                        System.out.print(Colors.DIM + c + Colors.RESET);
+                    } else if (c == '█') {
+                        System.out.print(Colors.BRIGHT_GREEN + c + Colors.RESET);     
+                    }else if (c == '▓') {
+                        System.out.print(Colors.BG_WHITE +Colors.BRIGHT_GREEN+ c + Colors.RESET);
+                    }else if (c == 'X') {
+                        System.out.print(Colors.RED+ c + Colors.RESET);
+
+                    } else{
+                        System.out.print(c);
+                    }
+                }
                 if(i < inventory.length && inventory[i] != null){
                     System.out.println(inventory[i]);
                 } else{
                     System.out.println();
                 }
             }
-            
-        } {
-            
         }
+        
+            
+        
         
     }
 
