@@ -93,7 +93,7 @@ public void moveTowardsPlayer() {
     }
 
     if (isCollidingWithPlayer()) {
-        
+        attack();
     }
 }
 
@@ -104,5 +104,36 @@ public void moveTowardsPlayer() {
      */
     public ObjectStorage getEnemyObject() {
         return enemyObject;
+    }
+
+
+
+    public void attack() {
+        String[] attackScreen = {
+            " ┌─:battle───────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+" │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
+" │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
+" │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
+" │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
+" │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
+" │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+" │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+" ├───────────░█▓███└─  ███───────────┤",
+" │          ░█▓▓        ░██          │",
+" │         ▓█▓           ░▓█░        │",
+" │       █▓░               ▓█▓░      │",
+" │                                   │",
+" │                                   │",
+" │                                   │",
+" └───────────────────────────────────┘" 
+        };
+     // show attack screen
+        map.setScreenType("attack");
+        map.setScreenText(attackScreen);
+        
     }
 }

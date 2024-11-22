@@ -9,35 +9,31 @@ public class Map {
     protected String title;
     protected List<ObjectStorage> objects;
     protected String screen;
-    private String[] attackScreen = {
-" ┌─:battle─────────────────────────────┐",
-" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
-" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
-" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
-" │░  ░  ░  ░  ░  ░  ░     ░  ░  ░  ░  ░│",
-" │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░  │",
-" │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  ░ │",
-" │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░  ░│",
-" │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░  │",
-" │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  ░ │",
-" │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░  ░│",
-" │ ░  ░  ░     █░ ░│ ░  ░▓█   ░  ░  ░  │",
-" ├───────────░█▓███└─  ███─────────────┤",
-" │          ░█▓▓        ░██            │",
-" │         ▓█▓           ░▓█░          │",
-" │       █▓░               ▓█▓░        │",
-" │                                     │",
-" │                                     │",
-" │                                     │",
-" └─────────────────────────────────────┘" 
-    };
-    protected String[] inventory = {    };
+    private String[] attackScreen = {  
 
+     };
+    protected String[] inventory = {    };
+    private String[] actions = {
+        "", 
+        "  You enter the first room. There is something in the distance.", 
+        "",
+        "  Actions:",
+        "  [ W ] Move Up", 
+        "  [ S ] Move Down",
+        "  [ A ] Move Left",
+        "  [ D ] Move Right",
+        ""
+       };
+    private String[] actionMenu = {
+            "┌─:action───────────────────────────────────────────────────────────────┐",
+            "│                                                                       │",
+            "├───────────────────────────────────────────────────────────────────────┘"
+    };
     public Map(int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;
-        this.screen = "attack";
+        this.screen = "map";
         objects = new ArrayList<>();
     }
 
@@ -48,10 +44,13 @@ public class Map {
             // Ignore
         }
     }
-    public void setScreen(String screenType) {
+    public void setScreenType(String screenType) {
         this.screen = screenType;
     }
 
+    public void setScreenText(String[] screen) {
+        this.attackScreen = screen;
+    }
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -87,6 +86,17 @@ public class Map {
         System.out.print(Colors.WHITE + borderChar + Colors.RESET);
     }
 
+public void drawActionMenu() {
+    System.out.println(Colors.WHITE + actionMenu[0] + Colors.RESET);
+    for (int i = 0; i < actions.length; i++) {
+        if (i == 1) {
+            System.out.println(Colors.ITALIC + "│ " + actions[i] + " ".repeat(70 - actions[i].length()) + "│" + Colors.RESET);
+        }else{
+                    System.out.println(Colors.WHITE + "│ " + actions[i] + " ".repeat(70 - actions[i].length()) + "│" + Colors.RESET);
+        }
+    }
+    System.out.println(Colors.WHITE + actionMenu[actionMenu.length - 1] + Colors.RESET);
+}
     public void draw(List<ObjectStorage> objects) {
         clearScreen();
         if (screen.equals("map")) {
@@ -107,6 +117,8 @@ public class Map {
                     System.out.println();
                 }
             }
+
+            drawActionMenu();
             
         } else if (screen.equals("attack")) {
             for (int i = 0; i < attackScreen.length; i++) {
@@ -118,7 +130,7 @@ public class Map {
                     } else if (c == '█') {
                         System.out.print(Colors.BRIGHT_GREEN + c + Colors.RESET);     
                     }else if (c == '▓') {
-                        System.out.print(Colors.BG_WHITE +Colors.BRIGHT_GREEN+ c + Colors.RESET);
+                        System.out.print(Colors.BRIGHT_GREEN+ c + Colors.RESET);
                     }else if (c == 'X') {
                         System.out.print(Colors.RED+ c + Colors.RESET);
 
@@ -182,6 +194,8 @@ public class Map {
     public List<ObjectStorage> getObjects() {
         return objects;
     }
+
+
 
     public void drawMap(String[][] map) {
         // add walls to map
