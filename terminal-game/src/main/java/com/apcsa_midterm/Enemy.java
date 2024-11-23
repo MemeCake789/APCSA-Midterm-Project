@@ -11,7 +11,7 @@ public class Enemy {
     private Map map;                    // Reference to game map
     private Player player;     
     private boolean canMove = false;     // Flag to track if enemy can move
-    
+    private boolean isAttacking = false; // Flag to track if enemy is attacking
     /**
      * Creates a new enemy at specified coordinates
      * @param startX Initial X coordinate
@@ -68,6 +68,11 @@ public void moveTowardsPlayer() {
 
     
     if (playerX == X || playerY == Y) {
+        if (!canMove) {
+            map.setActionMessage("You hear movement in the distance.");
+
+            
+        }
         canMove = true;
     }
 
@@ -94,6 +99,14 @@ public void moveTowardsPlayer() {
 
     if (isCollidingWithPlayer()) {
         attack();
+        
+    }
+}
+public static void wait(int ms) {
+    try {
+        Thread.sleep(ms);
+    } catch (InterruptedException e) {
+        // Ignore
     }
 }
 
@@ -106,34 +119,115 @@ public void moveTowardsPlayer() {
         return enemyObject;
     }
 
-
-
     public void attack() {
-        String[] attackScreen = {
+        map.setActionMessage("You and the monster cross paths and engage in battle!");
+        map.setActionOptions(4, "  [ A ] Attack");
+        map.setActionOptions(5, "  [ I ] Inspect");
+        map.setActionOptions(6, "  [ B ] Inventory");
+        map.setActionOptions(7, "");
+        player.getInput = false;
+        isAttacking = true;
+        
+        // String[] attackScreen = ;
+     // show attack screen
+
+        map.setScreenType("attack");
+        map.setScreenText(new String[]{
             " ┌─:battle───────────────────────────┐",
+            " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+            " │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+            " │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+            " │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
+            " │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
+            " │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
+            " │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
+            " │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
+            " │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
+            " │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+            " │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+            " ├───────────░█▓███└─  ███───────────┤",
+            " │          ░█▓▓        ░██          │",
+            " │         ▓█▓           ░▓█░        │",
+            " │       █▓░               ▓█▓░      │",
+            " │                                   │",
+            " │                                   │",
+            " │                                   │",
+            " └───────────────────────────────────┘" 
+        });
+    }
+
+    private boolean[] attackPositions = new boolean[10];
+    private boolean[] cursorPositions = new boolean[10];
+
+    private void setAttackPosition(int position, boolean value) {
+        for (int i = 0; i < cursorPositions.length; i++) {
+            cursorPositions[i] = false;
+        }
+        attackPositions[position] = value;
+    }
+    
+    private void generateAttackPosition() {
+        // for loop to update all attack positions to false
+        for (int i = 0; i < attackPositions.length; i++) {
+            attackPositions[i] = false;
+        }
+        // generate random number between 0 and 9  
+        int random = (int) (Math.random() * 10);
+        // set attack position to true
+        attackPositions[random] = true;
+    }
+    
+    private String getAttackPosition(int position) {
+        if (attackPositions[position]) {
+            return Colors.RED +"@" + Colors.RESET;
+        } else {
+            return Colors.DIM +"░" + Colors.RESET;
+            
+        } 
+    }
+    public void handleAttack(char input) {
+
+        if (isAttacking) {
+ 
+
+            if (Character.toLowerCase(input) == 'a') {
+                for (int i = 0; i < 3; i++) {
+                generateAttackPosition();
+                map.setActionMessage("You ready your weapon.");
+                map.setScreenText(new String[]{
+" ┌─:battle───────────────────────────┐",
 " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
-" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
-" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
-" │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
-" │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
-" │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
-" │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
-" │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
-" │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
-" │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
-" │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
-" ├───────────░█▓███└─  ███───────────┤",
-" │          ░█▓▓        ░██          │",
-" │         ▓█▓           ░▓█░        │",
-" │       █▓░               ▓█▓░      │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░     ░  ░│",
+" │  ░  ░  ░  ░  ░  ░  ░  ░   DMG  ░  │",
+" │░  ░  ░        ░  ░  ░  ░  ┌─┐   ░ │",
+" │ ░  ░   ▓█▓▓██     ░  ░  ░ │"+getAttackPosition(0)+ "│ ░  ░│",
+" │  ░   ███░ ░ ▓██▓█  ░  ░   │"+getAttackPosition(1)+ "│  ░  │",
+" │░   █▓▓▓░ ░  ░   ░█  ░  ░  │"+getAttackPosition(2)+ "│   ░ │",
+" │ ░   ██ ░\\__░  __/░█▓ ░  ░ │"+getAttackPosition(3)+ "│ ░  ░│",
+" │  ░   █░ <X> ░ <X> ░█  ░   │"+getAttackPosition(4)+ "│  ░  │",
+" │░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  │"+getAttackPosition(5)+ "│   ░ │",
+" │ ░     █░ ░│    ░▓█   ░  ░ │"+getAttackPosition(6)+ "│ ░  ░│",
+" ├─────░█▓███└─  ███──────── │"+getAttackPosition(7)+ "│ ────┤",
+" │    ░█▓▓        ░██        │"+getAttackPosition(8)+ "│     │",
+" │   ▓█▓           ░▓█░      │"+getAttackPosition(9)+ "│     │",
+" │ █▓░               ▓█▓░    └─┘     │",
 " │                                   │",
 " │                                   │",
 " │                                   │",
 " └───────────────────────────────────┘" 
-        };
-     // show attack screen
-        map.setScreenType("attack");
-        map.setScreenText(attackScreen);
-        
+                });
+
+                //redraw screen
+                map.draw(null);
+                }
+                
+                
+            } else if (Character.toLowerCase(input) == 'i') {
+                map.setActionMessage(".");
+            } else if (Character.toLowerCase(input) == 'b') {
+                map.setActionMessage("You open your bag.");
+            } 
+        }
+       
     }
 }

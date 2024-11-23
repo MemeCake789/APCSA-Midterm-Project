@@ -1,11 +1,14 @@
 package com.apcsa_midterm;
 
+
 public class Player {
     private int X;
     private int Y;
     private ObjectStorage playerObject;
     private Map map;
     private item[] inventory = new item[5];
+
+    public boolean getInput = true;
 
     public Player(int startX, int startY, String icon, Map map) {
         this.map = map;
@@ -59,34 +62,44 @@ public class Player {
     }
 
     public void handleMovement(char input) {
-        int newX = X;
-        int newY = Y;
-        if (Character.toLowerCase(input) == 'w') {
-            newY--;
-        } else if (Character.toLowerCase(input) == 's') {
-            newY++;
-        } else if (Character.toLowerCase(input) == 'a') {
-            newX--;
-        } else if (Character.toLowerCase(input) == 'd') {
-            newX++;
-        }
+        if (getInput) {
+            int newX = X;
+            int newY = Y;
         
-        if (!isWallAt(newX, newY)) {
-            for (ObjectStorage object : map.getObjects()) {
-                if (object.getX() == newX && object.getY() == newY && object.getType().equals("item")) {
-                    // add item to inventory
-                    addItem(object.getItemName(), object.getIcon(), object.getItemType(), object.getItemProperty());
-                    // remove iem from map 
-                    // I had to move the object out of bounds because idk
-                    object.move(-1000, -1000);
+   
+                if (Character.toLowerCase(input) == 'w') {
+                    map.setActionMessage("You walked up.");
+                    newY--;
+                } else if (Character.toLowerCase(input) == 's') {
+                    map.setActionMessage("You walked down.");
+                    newY++;
+                } else if (Character.toLowerCase(input) == 'a') {
+                    map.setActionMessage("You walked left.");
+                    newX--;
+                } else if (Character.toLowerCase(input) == 'd') {
+                    map.setActionMessage("You walked right.");
+                    newX++;
                 }
+            
+            if (!isWallAt(newX, newY)) {
+                for (ObjectStorage object : map.getObjects()) {
+                    if (object.getX() == newX && object.getY() == newY && object.getType().equals("item")) {
+                        // add item to inventory
+                        addItem(object.getItemName(), object.getIcon(), object.getItemType(), object.getItemProperty());
+                        // remove iem from map 
+                        // I had to move the object out of bounds because idk
+                        object.move(-1000, -1000);
+                    }
+                }
+                X = newX;
+                Y = newY;
+                playerObject.move(newX, newY);
+            } else{
+                map.setActionMessage("You tried to move, but bumped into a wall.");
             }
-            X = newX;
-            Y = newY;
-            playerObject.move(newX, newY);
         }
+       
     }
-    
     public ObjectStorage getPlayerObject() {
         return playerObject;
     }
@@ -96,7 +109,9 @@ public class Player {
             if (inventory[i] == null) {
                 inventory[i] = new item(name, icon, type, property);
                 updateInventoryDisplay();
+                map.setActionMessage("You picked up " + name + " and threw it into your bag.");
                 break;
+
             }
         }
     }

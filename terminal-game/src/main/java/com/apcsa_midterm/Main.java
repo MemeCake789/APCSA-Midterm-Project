@@ -81,7 +81,7 @@ public class Main {
         map.drawMap(map.map);
         
         Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map);
-        Enemy enemy = new Enemy(15, 15, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player);
+        Enemy enemy = new Enemy(3, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player);
         // player.addItem("Small Potion", "♥", "potion", 20);  
         // player.addItem("Tiny Sword", ">", "weapon", 5);   
         // player.addItem("Rusty Shield", "♦", "shield", 10);
@@ -94,8 +94,17 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.err.print("└─►  Input: " );
-            player.handleMovement(scanner.next().charAt(0));
-            enemy.moveTowardsPlayer();
+            char input = scanner.next().charAt(0);
+            
+            // First handle attack if we're in attack mode
+            if (!player.getInput) {
+                enemy.handleAttack(input);
+            } else {
+                // Otherwise handle normal movement
+                player.handleMovement(input);
+                enemy.moveTowardsPlayer();
+            }
+            
             map.draw(map.getObjects());
         }
     }

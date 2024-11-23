@@ -97,6 +97,25 @@ public void drawActionMenu() {
     }
     System.out.println(Colors.WHITE + actionMenu[actionMenu.length - 1] + Colors.RESET);
 }
+
+/**
+ * Sets the action message at index 1 in the actions array.
+ *
+ * @param message the new action message to set
+ */
+void setActionMessage(String message) {
+    this.actions[1] = message;
+}
+
+/**
+ * Sets the action options for the specified index in the actions array.
+ *
+ * @param num      the index of the action option to set
+ * @param options  the new action options to set
+ */
+void setActionOptions(int num, String options) {
+    this.actions[num] = options;
+}
     public void draw(List<ObjectStorage> objects) {
         clearScreen();
         if (screen.equals("map")) {
@@ -143,8 +162,13 @@ public void drawActionMenu() {
                 } else{
                     System.out.println();
                 }
+
+                
             }
+            drawActionMenu();
+
         }
+
         
             
         
