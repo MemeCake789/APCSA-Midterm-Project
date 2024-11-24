@@ -1,5 +1,7 @@
 package com.apcsa_midterm;
 
+import java.util.Scanner;
+
 /**
  * Represents an enemy entity in the game that follows the player
  * Will move towards the player and chase it if it spots it ( If player is in same row or column )
@@ -159,11 +161,24 @@ public static void wait(int ms) {
     private boolean[] attackPositions = new boolean[10];
     private boolean[] cursorPositions = new boolean[10];
 
-    private void setAttackPosition(int position, boolean value) {
+    private void setCursorPosition(int position) {
         for (int i = 0; i < cursorPositions.length; i++) {
             cursorPositions[i] = false;
         }
-        attackPositions[position] = value;
+         cursorPositions[position] = true;
+    }
+
+    private String getCursorPosition(int position, int side) {
+        if (cursorPositions[position]) {
+            if (side == 1) {
+                return Colors.BLUE + ">" + Colors.RESET;   
+            } else if (side == 2) {
+                return Colors.BLUE + "<" + Colors.RESET;
+            }
+        } else {
+            return " ";
+        }
+        return " "; // Default return statement
     }
     
     private void generateAttackPosition() {
@@ -176,57 +191,88 @@ public static void wait(int ms) {
         // set attack position to true
         attackPositions[random] = true;
     }
-    
     private String getAttackPosition(int position) {
         if (attackPositions[position]) {
-            return Colors.RED +"@" + Colors.RESET;
+            return Colors.BG_RED + " " + Colors.RESET;
+        } else if (position > 0 && attackPositions[position - 1]) {
+            return Colors.BG_YELLOW + " " + Colors.RESET;
+        } else if (position < attackPositions.length - 1 && attackPositions[position + 1]) {
+            return Colors.BG_YELLOW + " " + Colors.RESET;
         } else {
-            return Colors.DIM +"░" + Colors.RESET;
-            
-        } 
+            return Colors.DIM + "░" + Colors.RESET;
+        }
     }
+    
+    
+    // create scanner to read input from user
+    private Scanner in = new Scanner(System.in);
+    
     public void handleAttack(char input) {
 
         if (isAttacking) {
- 
 
             if (Character.toLowerCase(input) == 'a') {
                 for (int i = 0; i < 3; i++) {
-                generateAttackPosition();
-                map.setActionMessage("You ready your weapon.");
-                map.setScreenText(new String[]{
-" ┌─:battle───────────────────────────┐",
-" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
-" │ ░  ░  ░  ░  ░  ░  ░  ░  ░     ░  ░│",
-" │  ░  ░  ░  ░  ░  ░  ░  ░   DMG  ░  │",
-" │░  ░  ░        ░  ░  ░  ░  ┌─┐   ░ │",
-" │ ░  ░   ▓█▓▓██     ░  ░  ░ │"+getAttackPosition(0)+ "│ ░  ░│",
-" │  ░   ███░ ░ ▓██▓█  ░  ░   │"+getAttackPosition(1)+ "│  ░  │",
-" │░   █▓▓▓░ ░  ░   ░█  ░  ░  │"+getAttackPosition(2)+ "│   ░ │",
-" │ ░   ██ ░\\__░  __/░█▓ ░  ░ │"+getAttackPosition(3)+ "│ ░  ░│",
-" │  ░   █░ <X> ░ <X> ░█  ░   │"+getAttackPosition(4)+ "│  ░  │",
-" │░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  │"+getAttackPosition(5)+ "│   ░ │",
-" │ ░     █░ ░│    ░▓█   ░  ░ │"+getAttackPosition(6)+ "│ ░  ░│",
-" ├─────░█▓███└─  ███──────── │"+getAttackPosition(7)+ "│ ────┤",
-" │    ░█▓▓        ░██        │"+getAttackPosition(8)+ "│     │",
-" │   ▓█▓           ░▓█░      │"+getAttackPosition(9)+ "│     │",
-" │ █▓░               ▓█▓░    └─┘     │",
-" │                                   │",
-" │                                   │",
-" │                                   │",
-" └───────────────────────────────────┘" 
-                });
+                    generateAttackPosition();
+                    for (int j = 0; j < cursorPositions.length; j++) {
+                        wait(100);
+                        setCursorPosition(j);
+                        map.draw(null);
+                        map.setScreenText(new String[]{
+                            " ┌─:battle───────────────────────────┐",
+                            " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+                            " │ ░  ░  ░  ░  ░  ░  ░  ░  ░     ░  ░│",
+                            " │  ░  ░  ░  ░  ░  ░  ░  ░   DMG  ░  │",
+                            " │░  ░  ░        ░  ░  ░  ░  ┌─┐   ░ │",
+                            " │ ░  ░   ▓█▓▓██     ░  ░  ░"+getCursorPosition(0, 1)+"│"+getAttackPosition(0)+ "│"+getCursorPosition(0, 2)+"░  ░│",
+                            " │  ░   ███░ ░ ▓██▓█  ░  ░  "+getCursorPosition(1, 1)+"│"+getAttackPosition(1)+ "│"+getCursorPosition(1, 2)+" ░  │",
+                            " │░   █▓▓▓░ ░  ░   ░█  ░  ░ "+getCursorPosition(2, 1)+"│"+getAttackPosition(2)+ "│"+getCursorPosition(2, 2)+"  ░ │",
+                            " │ ░   ██ ░\\__░  __/░█▓ ░   "+getCursorPosition(3, 1)+"│"+getAttackPosition(3)+ "│"+getCursorPosition(3, 2)+"░  ░│",
+                            " │  ░   █░ <X> ░ <X> ░█  ░  "+getCursorPosition(4, 1)+"│"+getAttackPosition(4)+ "│"+getCursorPosition(4, 2)+" ░  │",
+                            " │░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░ "+getCursorPosition(5, 1)+"│"+getAttackPosition(5)+ "│"+getCursorPosition(5, 2)+"  ░ │",
+                            " │ ░     █░ ░│    ░▓█   ░  ░"+getCursorPosition(6, 1)+"│"+getAttackPosition(6)+ "│"+getCursorPosition(6, 2)+"░  ░│",
+                            " ├─────░█▓███└─  ███────────"+getCursorPosition(7, 1)+"│"+getAttackPosition(7)+ "│"+getCursorPosition(7, 2)+"────┤",
+                            " │    ░█▓▓        ░██       "+getCursorPosition(8, 1)+"│"+getAttackPosition(8)+ "│"+getCursorPosition(8, 2)+"    │",
+                            " │   ▓█▓           ░▓█░     "+getCursorPosition(9, 1)+"│"+getAttackPosition(9)+ "│"+getCursorPosition(9, 2)+"    │",
+                            " │ █▓░               ▓█▓░    └─┘     │",
+                            " │                                   │",
+                            " │                                   │",
+                            " │                                   │",
+                            " └───────────────────────────────────┘" 
+                                            });
+    
 
-                //redraw screen
-                map.draw(null);
+                    }
+                    map.setActionMessage("You ready your weapon.");
+                    map.setScreenText(new String[]{
+                        " ┌─:battle───────────────────────────┐",
+                        " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+                        " │ ░  ░  ░  ░  ░  ░  ░  ░  ░     ░  ░│",
+                        " │  ░  ░  ░  ░  ░  ░  ░  ░   DMG  ░  │",
+                        " │░  ░  ░        ░  ░  ░  ░  ┌─┐   ░ │",
+                        " │ ░  ░   ▓█▓▓██     ░  ░  ░"+getCursorPosition(0, 1)+"│"+getAttackPosition(0)+ "│"+getCursorPosition(0, 2)+"░  ░│",
+                        " │  ░   ███░ ░ ▓██▓█  ░  ░  "+getCursorPosition(1, 1)+"│"+getAttackPosition(1)+ "│"+getCursorPosition(1, 2)+" ░  │",
+                        " │░   █▓▓▓░ ░  ░   ░█  ░  ░ "+getCursorPosition(2, 1)+"│"+getAttackPosition(2)+ "│"+getCursorPosition(2, 2)+"  ░ │",
+                        " │ ░   ██ ░\\__░  __/░█▓ ░   "+getCursorPosition(3, 1)+"│"+getAttackPosition(3)+ "│"+getCursorPosition(3, 2)+"░  ░│",
+                        " │  ░   █░ <X> ░ <X> ░█  ░  "+getCursorPosition(4, 1)+"│"+getAttackPosition(4)+ "│"+getCursorPosition(4, 2)+" ░  │",
+                        " │░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░ "+getCursorPosition(5, 1)+"│"+getAttackPosition(5)+ "│"+getCursorPosition(5, 2)+"  ░ │",
+                        " │ ░     █░ ░│    ░▓█   ░  ░"+getCursorPosition(6, 1)+"│"+getAttackPosition(6)+ "│"+getCursorPosition(6, 2)+"░  ░│",
+                        " ├─────░█▓███└─  ███────────"+getCursorPosition(7, 1)+"│"+getAttackPosition(7)+ "│"+getCursorPosition(7, 2)+"────┤",
+                        " │    ░█▓▓        ░██       "+getCursorPosition(8, 1)+"│"+getAttackPosition(8)+ "│"+getCursorPosition(8, 2)+"    │",
+                        " │   ▓█▓           ░▓█░     "+getCursorPosition(9, 1)+"│"+getAttackPosition(9)+ "│"+getCursorPosition(9, 2)+"    │",
+                        " │ █▓░               ▓█▓░    └─┘     │",
+                        " │                                   │",
+                        " │                                   │",
+                        " │                                   │",
+                        " └───────────────────────────────────┘" 
+                                        });
+                                                            map.draw(null);
                 }
-                
-                
             } else if (Character.toLowerCase(input) == 'i') {
                 map.setActionMessage(".");
             } else if (Character.toLowerCase(input) == 'b') {
                 map.setActionMessage("You open your bag.");
-            } 
+            }
         }
        
     }
