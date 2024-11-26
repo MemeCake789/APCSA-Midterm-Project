@@ -65,13 +65,14 @@ public class Main {
         waitForValidWindowSize();
 
         // Color test display
-        for (String bg : Colors.BACKGROUNDS) {
-            for (String fg : Colors.FOREGROUNDS) {
-                System.out.print(fg + bg + " [X] " + Colors.RESET);
+        for (String i : Colors.FOREGROUNDS) {
+            for (String j : Colors.STYLES) {
+                for (String k : Colors.BACKGROUNDS) {
+                System.out.print(i + j + k+ " [X] " + Colors.RESET);
             }
             System.out.println();
             wait(5);
-        }
+        }}
 
         wait(500);
         clearScreen();
@@ -81,7 +82,7 @@ public class Main {
         map.drawMap(map.map);
         
         Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map);
-        Enemy enemy = new Enemy(3, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player);
+        Enemy enemy = new Enemy(3, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player,20);
         // player.addItem("Small Potion", "♥", "potion", 20);  
         // player.addItem("Tiny Sword", ">", "weapon", 5);   
         // player.addItem("Rusty Shield", "♦", "shield", 10);
@@ -93,7 +94,7 @@ public class Main {
         // Game loop
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.err.print("└─►  Input: " );
+            System.out.print("└─►  Input: " );
             char input = scanner.next().charAt(0);
             
             // First handle attack if we're in attack mode

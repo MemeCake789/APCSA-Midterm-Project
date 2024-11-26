@@ -66,6 +66,10 @@ public class Colors {
         BRIGHT_BG_BLUE, BRIGHT_BG_PURPLE, BRIGHT_BG_CYAN, BRIGHT_BG_WHITE
     };
 
+    public static final String[] STYLES = {
+        BOLD, DIM, ITALIC, UNDERLINE, STRIKETHROUGH
+    };
+
     // Helper methods
     public static String getForeground(int index) {
         return FOREGROUNDS[index];

@@ -154,9 +154,9 @@ class item {
     public int getProperty() { return property; }
     public String displayProperty() { 
         if (type.equals("weapon")) {
-            return Colors.RED + "† :" + property + Colors.RESET;
+            return Colors.RED + "! :" + property + Colors.RESET;
         } else if (type.equals("armor")) {
-            return Colors.BLUE + "⛉ : " + property + Colors.RESET; 
+            return Colors.BLUE + "0 : " + property + Colors.RESET; 
         } else if (type.equals("potion")) {
             return Colors.BRIGHT_GREEN + "+ : "  + property + Colors.RESET;
         }
