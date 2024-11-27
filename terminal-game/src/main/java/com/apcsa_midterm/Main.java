@@ -81,8 +81,8 @@ public class Main {
         Map map = new Map(20, 20, "map");
         map.drawMap(map.map);
         
-        Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map);
-        Enemy enemy = new Enemy(3, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player,20);
+        Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map, 20);
+        Enemy enemy = new Enemy(3, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player,10,5, "Cralwer");
         // player.addItem("Small Potion", "♥", "potion", 20);  
         // player.addItem("Tiny Sword", ">", "weapon", 5);   
         // player.addItem("Rusty Shield", "♦", "shield", 10);
@@ -100,10 +100,13 @@ public class Main {
             // First handle attack if we're in attack mode
             if (!player.getInput) {
                 enemy.handleAttack(input);
+                map.statusText = " Health: " + player.health;
+
             } else {
                 // Otherwise handle normal movement
                 player.handleMovement(input);
                 enemy.moveTowardsPlayer();
+                map.statusText = "Room: Room1" + " | Health: " + player.health + " | X: " + player.X + " | Y: " + player.Y;
             }
             
             map.draw(map.getObjects());

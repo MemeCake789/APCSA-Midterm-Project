@@ -2,19 +2,21 @@ package com.apcsa_midterm;
 
 
 public class Player {
-    private int X;
-    private int Y;
+    public int X;
+    public int Y;
     private ObjectStorage playerObject;
     private Map map;
     private item[] inventory = new item[5];
+    public int health;
 
     public boolean getInput = true;
 
-    public Player(int startX, int startY, String icon, Map map) {
+    public Player(int startX, int startY, String icon, Map map, int health) {
         this.map = map;
         playerObject = new ObjectStorage(startX, startY, icon, "player");
         this.X = startX;
         this.Y = startY;
+        this.health = health;
         map.getObjects().add(playerObject);
         updateInventoryDisplay();
     }

@@ -12,16 +12,19 @@ public class Enemy {
     private boolean canMove = false; // Flag to track if enemy can move
     private boolean isAttacking = false; // Flag to track if enemy is attacking
     private int health;
+    private String name;
+    private int attackDamage = 0;
     private int damage = 0;
 
-    public Enemy(int startX, int startY, String icon, Map map, Player player, int health) {
+    public Enemy(int startX, int startY, String icon, Map map, Player player, int health, int damage, String name) {
         this.map = map;
         this.player = player;
         enemyObject = new ObjectStorage(startX, startY, icon, "enemy");
         this.X = startX;
         this.Y = startY;
         this.health = health;
-        
+        this.name = name;
+        this.attackDamage = damage;
         map.getObjects().add(enemyObject);
     }
 
@@ -233,11 +236,13 @@ public void handleAttack(char input) {
             
                                 if(attackPositions[j]){
                                     setDamage(getDamage() + 2);
+                                    map.setActionMessage("You hit the enemy!");
                                 } else if (j > 0 && attackPositions[j-1]){
                                     setDamage(getDamage() + 1);
+                                    map.setActionMessage("You cut the enemy!");
                                 } else if (j < attackPositions.length-1 && attackPositions[j+1]){
                                     setDamage(getDamage() + 1);
-                                    
+                                    map.setActionMessage("You cut the enemy!");
                                 } else{
                                     map.setActionMessage("You missed!");
                                 }
@@ -251,6 +256,98 @@ public void handleAttack(char input) {
                 }
             }
             health = health - getDamage();
+            map.setActionMessage("You attacked the enemy for " + getDamage() + " damage!");
+            for (int i = 0; i < 5; i++) {
+                 map.setScreenText(new String[]{
+" ┌─:battle───────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │  ░  ░  ░  ░  ░/ ░  ░  ░  ░  ░  ░  │",
+" │░  ░  ░  ░  ░      - \\  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░ / ▓█▓▓██░    \\  ░  ░  ░│",
+" │  ░  ░  ░/- ███░ ░ ▓██▓█- ░  ░  ░  │",
+" │░  ░  ░   █▓▓▓░─── ░ ───█   \\ ░  ░ │",
+" │ ░  ░  ░\\  ██ ░/▄\\░  /▄\\░█▓    ░  ░│",
+" │  ░  ░  ░-  █░ \\▀/ ░ \\▀/ ░█░ ░  ░  │",
+" │░  ░  ░  ░\\ ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+" │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+" ├───────────░█▓███│   ███──/────────┤",
+" │      /   ░█▓▓   └─   ░██  -       │",
+" │         ▓█▓    -    \\ ░▓█░ /      │",
+" │    \\- █▓░    /          ▓█▓░      │",
+" │           /      -  \\       /     │",
+" │      -                 -          │",
+" │                                   │",
+" └───────────────────────────────────┘" 
+            });
+            map.draw(null);
+            wait(100);
+            map.setScreenText(new String[]{
+" ┌─:battle───────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+" │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
+" │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
+" │░  ░  ░   █▓▓▓░─── ░ ───█  ░  ░  ░ │",
+" │ ░  ░  ░   ██ ░/▄\\░  /▄\\░█▓    ░  ░│",
+" │  ░  ░  ░   █░ \\▀/ ░ \\▀/ ░█░ ░  ░  │",
+" │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+" │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+" ├───────────░█▓███│   ███───────────┤",
+" │          ░█▓▓   └─   ░██          │",
+" │         ▓█▓           ░▓█░        │",
+" │       █▓░               ▓█▓░      │",
+" │                                   │",
+" │                                   │",
+" │                                   │",
+" └───────────────────────────────────┘" 
+            });
+            map.draw(null);
+                        wait(100);
+                        
+
+            }
+           
+            setDamage(0);
+        }
+
+        map.setScreenText(new String[] {
+            " ┌─:battle───────────────────────────┐",
+            " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+            " │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+            " │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+            " │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
+            " │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
+            " │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
+            " │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
+            " │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
+            " │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
+            " │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+            " │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+            " ├───────────░█▓███└─  ███───────────┤",
+            " │          ░█▓▓        ░██          │",
+            " │         ▓█▓           ░▓█░        │",
+            " │       █▓░               ▓█▓░      │",
+            " │                                   │",
+            " │                                   │",
+            " │                                   │",
+            " └───────────────────────────────────┘"
+        });
+
+        map.draw(null);
+        wait(700);
+        // have a 50% chance to attack the player
+        if (Math.random() < 0.5) {
+            map.setActionMessage("The "+ name +" lunges at you..."+" and attacks you for " + attackDamage + " damage!");
+            player.health -= attackDamage;
+        } else {
+            map.setActionMessage("The "+ name +" lunges at you..." + " and misses!");
+        }
+
+        if (Character.toLowerCase(input) == 'i') {
+            map.setActionMessage("You inspect the " + name + ": Health: " + health + " Attack: " + attackDamage);
         }
     }
 }

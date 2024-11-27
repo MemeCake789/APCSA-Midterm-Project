@@ -9,6 +9,7 @@ public class Map {
     protected String title;
     protected List<ObjectStorage> objects;
     protected String screen;
+    public String statusText = "Loading...";
     private String[] attackScreen = {  
 
      };
@@ -60,6 +61,13 @@ public class Map {
         return x == 0 || y == 0 || x == width - 1 || y == height - 1;
     }
 
+
+    public void drawStatus(){
+        
+        System.out.println("┌─:status───────────────────────────────────────────────────────────────┐");
+        System.out.println("│" +" "+ statusText + " ".repeat(70 - statusText.length()) + "│");
+        System.out.println("└───────────────────────────────────────────────────────────────────────┘");
+    }
     public void printBorder(int x, int y) {
         if (y == 0 && x >= 2 && x < 6 + title.length()) {
             if (x == 2) {
@@ -136,7 +144,7 @@ void setActionOptions(int num, String options) {
                     System.out.println();
                 }
             }
-
+            drawStatus();
             drawActionMenu();
             
         } else if (screen.equals("attack")) {
@@ -165,6 +173,7 @@ void setActionOptions(int num, String options) {
 
                 
             }
+                        drawStatus();
             drawActionMenu();
 
         }
