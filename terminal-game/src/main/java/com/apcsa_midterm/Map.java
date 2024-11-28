@@ -218,8 +218,8 @@ void setActionOptions(int num, String options) {
     };
 
     public ObjectStorage[] mapItems = {
-        new ObjectStorage(8, 2, "♥ ", "item", "Small Potion", "potion", 10),
-        new ObjectStorage(3, 15, "/ ", "item", "Copper Sword", "weapon", 5),
+        new ObjectStorage(8, 2, "♥ ", "item", "SP | Small Potion", "potion", 12),
+        new ObjectStorage(3, 15, "/ ", "item", "CS | Copper Sword", "weapon", 5),
 
     };
 

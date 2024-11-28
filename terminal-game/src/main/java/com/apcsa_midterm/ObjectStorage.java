@@ -24,7 +24,7 @@ public class ObjectStorage {
         
         String itemName ,
         String itemType, 
-        int itemProperty) { // extra parameters if is a item
+        int itemP) { // extra parameters if is a item
 
         
         this.x = x;
@@ -39,7 +39,7 @@ public class ObjectStorage {
         this.type = type;
         this.itemName = itemName;
         this.itemType = itemType;
-        this.itemProperty = itemProperty;
+        this.itemProperty = itemP;
     } // item constructor
 
     public void move(int newX, int newY) {

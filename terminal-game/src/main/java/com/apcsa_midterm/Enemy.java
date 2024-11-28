@@ -349,6 +349,42 @@ public void handleAttack(char input) {
         if (Character.toLowerCase(input) == 'i') {
             map.setActionMessage("You inspect the " + name + ": Health: " + health + " Attack: " + attackDamage);
         }
+
+        if (Character.toLowerCase(input) == 'b') {
+
+            // map.setActionMessage(itemList.toString());
+            // create scanner
+            Scanner scanner = new Scanner(System.in);
+            // read input
+            String inventoryInput = scanner.nextLine();
+
+            for (item inventoryItem : player.inventory) {
+                if (inventoryItem != null) {
+                    String itemName = inventoryItem.getName();
+                    String keycode = itemName.substring(0, 2).toUpperCase();
+                    if (inventoryInput.toUpperCase().equals(keycode)) {
+                        // get item type
+                        String itemType = inventoryItem.getType();
+                        if (itemType.equals("weapon")) {
+                            map.setActionMessage("You equip the " + inventoryItem.getName() + ".");
+                            player.damageMultiplier += inventoryItem.getProperty();
+                        }
+
+                        if (itemType.equals("potion")) {
+                            map.setActionMessage("You use the " + inventoryItem.getName() + ".");
+                            player.health += inventoryItem.getProperty();
+                        }
+
+                        if (itemType.equals("armor")) {
+                            // TODO: implement armor
+                        }
+
+                        
+                    }
+                }
+            }
+        }
+
     }
 }
 

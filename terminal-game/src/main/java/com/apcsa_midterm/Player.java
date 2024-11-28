@@ -6,8 +6,9 @@ public class Player {
     public int Y;
     private ObjectStorage playerObject;
     private Map map;
-    private item[] inventory = new item[5];
+    public item[] inventory = new item[5];
     public int health;
+    public int damageMultiplier;
 
     public boolean getInput = true;
 
@@ -17,8 +18,10 @@ public class Player {
         this.X = startX;
         this.Y = startY;
         this.health = health;
+        this.damageMultiplier = 5;
         map.getObjects().add(playerObject);
         updateInventoryDisplay();
+
     }
 
     private void updateInventoryDisplay() {
