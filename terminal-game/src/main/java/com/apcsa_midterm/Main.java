@@ -81,8 +81,8 @@ public class Main {
         Map map = new Map(20, 20, "map");
         map.drawMap(map.map);
         
-        Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map, 20);
-        Enemy enemy = new Enemy(3, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player,10,5, "Cralwer");
+        Player player = new Player(3, 1, Colors.BRIGHT_GREEN + "X " + Colors.RESET, map, 100);
+        Enemy enemy = new Enemy(6, 10, Colors.BG_RED + Colors.BLACK + "@"+ Colors.RESET+" " , map, player,5,7, "Cralwer");
         // player.addItem("Small Potion", "♥", "potion", 20);  
         // player.addItem("Tiny Sword", ">", "weapon", 5);   
         // player.addItem("Rusty Shield", "♦", "shield", 10);

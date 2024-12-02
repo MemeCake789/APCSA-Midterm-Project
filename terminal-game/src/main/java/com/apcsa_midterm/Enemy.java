@@ -84,6 +84,8 @@ public class Enemy {
 
         if (isCollidingWithPlayer()) {
             attack();
+            X = 1000;
+            Y = 1000;
 
         }
     }
@@ -118,26 +120,26 @@ public class Enemy {
 
         map.setScreenType("attack");
         map.setScreenText(new String[] {
-            " ┌─:battle───────────────────────────┐",
-            " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
-            " │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
-            " │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
-            " │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
-            " │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
-            " │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
-            " │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
-            " │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
-            " │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
-            " │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
-            " │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
-            " ├───────────░█▓███└─  ███───────────┤",
-            " │          ░█▓▓        ░██          │",
-            " │         ▓█▓           ░▓█░        │",
-            " │       █▓░               ▓█▓░      │",
-            " │                                   │",
-            " │                                   │",
-            " │                                   │",
-            " └───────────────────────────────────┘"
+" ┌─:battle───────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+" │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
+" │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
+" │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
+" │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
+" │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
+" │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+" │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+" ├───────────░█▓███└─  ███───────────┤",
+" │          ░█▓▓        ░██          │",
+" │         ▓█▓           ░▓█░        │",
+" │       █▓░               ▓█▓░      │",
+" │                                   │",
+" │                                   │",
+" │                                   │",
+" └───────────────────────────────────┘"
         });
     }
 
@@ -169,8 +171,8 @@ public class Enemy {
         for (int i = 0; i < attackPositions.length; i++) {
             attackPositions[i] = false;
         }
-        // generate random number between 0 and 9  
-        int random = (int)(Math.random() * 10);
+        // generate random number between 2 and 7
+        int random = (int) (Math.random() * (7 - 2 + 1) + 2);
         // set attack position to true
         attackPositions[random] = true;
     }
@@ -208,26 +210,26 @@ public void handleAttack(char input) {
                     map.draw(null);
                     
                     map.setScreenText(new String[] {
-                            " ┌─:battle───────────────────────────┐",
-                            " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
-                            " │ ░  ░  ░  ░  ░  ░  ░  ░  ░     ░  ░│",
-                            " │  ░  ░  ░  ░  ░  ░  ░  ░   "+getDamage() +" !"+"  ░  │",
-                            " │░  ░  ░        ░  ░  ░  ░  ┌─┐   ░ │",
-                            " │ ░  ░   ▓█▓▓██     ░  ░  ░" + getCursorPosition(0, 1) + "│" + getAttackPosition(0) + "│" + getCursorPosition(0, 2) + "░  ░│",
-                            " │  ░   ███░ ░ ▓██▓█  ░  ░  " + getCursorPosition(1, 1) + "│" + getAttackPosition(1) + "│" + getCursorPosition(1, 2) + " ░  │",
-                            " │░   █▓▓▓░ ░  ░   ░█  ░  ░ " + getCursorPosition(2, 1) + "│" + getAttackPosition(2) + "│" + getCursorPosition(2, 2) + "  ░ │",
-                            " │ ░   ██ ░\\__░  __/░█▓ ░   " + getCursorPosition(3, 1) + "│" + getAttackPosition(3) + "│" + getCursorPosition(3, 2) + "░  ░│",
-                            " │  ░   █░ <X> ░ <X> ░█  ░  " + getCursorPosition(4, 1) + "│" + getAttackPosition(4) + "│" + getCursorPosition(4, 2) + " ░  │",
-                            " │░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░ " + getCursorPosition(5, 1) + "│" + getAttackPosition(5) + "│" + getCursorPosition(5, 2) + "  ░ │",
-                            " │ ░     █░ ░│    ░▓█   ░  ░" + getCursorPosition(6, 1) + "│" + getAttackPosition(6) + "│" + getCursorPosition(6, 2) + "░  ░│",
-                            " ├─────░█▓███└─  ███────────" + getCursorPosition(7, 1) + "│" + getAttackPosition(7) + "│" + getCursorPosition(7, 2) + "────┤",
-                            " │    ░█▓▓        ░██       " + getCursorPosition(8, 1) + "│" + getAttackPosition(8) + "│" + getCursorPosition(8, 2) + "    │",
-                            " │   ▓█▓           ░▓█░     " + getCursorPosition(9, 1) + "│" + getAttackPosition(9) + "│" + getCursorPosition(9, 2) + "    │",
-                            " │ █▓░               ▓█▓░    └─┘     │",
-                            " │                                   │",
-                            " │                                   │",
-                            " │                                   │",
-                            " └───────────────────────────────────┘"
+" ┌─:battle───────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░     ░  ░│",
+" │  ░  ░  ░  ░  ░  ░  ░  ░   "+getDamage() +" !"+"  ░  │",
+" │░  ░  ░        ░  ░  ░  ░  ┌─┐   ░ │",
+" │ ░  ░   ▓█▓▓██     ░  ░  ░" + getCursorPosition(0, 1) + "│" + getAttackPosition(0) + "│" + getCursorPosition(0, 2) + "░  ░│",
+" │  ░   ███░ ░ ▓██▓█  ░  ░  " + getCursorPosition(1, 1) + "│" + getAttackPosition(1) + "│" + getCursorPosition(1, 2) + " ░  │",
+" │░   █▓▓▓░ ░  ░   ░█  ░  ░ " + getCursorPosition(2, 1) + "│" + getAttackPosition(2) + "│" + getCursorPosition(2, 2) + "  ░ │",
+" │ ░   ██ ░\\__░  __/░█▓ ░   " + getCursorPosition(3, 1) + "│" + getAttackPosition(3) + "│" + getCursorPosition(3, 2) + "░  ░│",
+" │  ░   █░ <X> ░ <X> ░█  ░  " + getCursorPosition(4, 1) + "│" + getAttackPosition(4) + "│" + getCursorPosition(4, 2) + " ░  │",
+" │░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░ " + getCursorPosition(5, 1) + "│" + getAttackPosition(5) + "│" + getCursorPosition(5, 2) + "  ░ │",
+" │ ░     █░ ░│    ░▓█   ░  ░" + getCursorPosition(6, 1) + "│" + getAttackPosition(6) + "│" + getCursorPosition(6, 2) + "░  ░│",
+" ├─────░█▓███└─  ███────────" + getCursorPosition(7, 1) + "│" + getAttackPosition(7) + "│" + getCursorPosition(7, 2) + "────┤",
+" │    ░█▓▓        ░██       " + getCursorPosition(8, 1) + "│" + getAttackPosition(8) + "│" + getCursorPosition(8, 2) + "    │",
+" │   ▓█▓           ░▓█░     " + getCursorPosition(9, 1) + "│" + getAttackPosition(9) + "│" + getCursorPosition(9, 2) + "    │",
+" │ █▓░               ▓█▓░    └─┘     │",
+" │                                   │",
+" │                                   │",
+" │                                   │",
+" └───────────────────────────────────┘"
                         });
                     try {
                         if (System.in.available() > 0) {
@@ -235,13 +237,13 @@ public void handleAttack(char input) {
                             if (keyCode == 10) { // 10 is the ASCII code for ENTER/newline
             
                                 if(attackPositions[j]){
-                                    setDamage(getDamage() + 2);
+                                    setDamage(getDamage() + player.damageMultiplier);
                                     map.setActionMessage("You hit the enemy!");
                                 } else if (j > 0 && attackPositions[j-1]){
-                                    setDamage(getDamage() + 1);
+                                    setDamage(getDamage() + player.damageMultiplier/2);
                                     map.setActionMessage("You cut the enemy!");
                                 } else if (j < attackPositions.length-1 && attackPositions[j+1]){
-                                    setDamage(getDamage() + 1);
+                                    setDamage(getDamage() + player.damageMultiplier/2);
                                     map.setActionMessage("You cut the enemy!");
                                 } else{
                                     map.setActionMessage("You missed!");
@@ -311,40 +313,87 @@ public void handleAttack(char input) {
             }
            
             setDamage(0);
+
+
+            map.setScreenText(new String[] {
+ " ┌─:battle───────────────────────────┐",
+ " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+ " │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+ " │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+ " │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
+ " │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
+ " │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
+ " │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
+ " │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
+ " │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
+ " │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
+ " │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
+ " ├───────────░█▓███└─  ███───────────┤",
+ " │          ░█▓▓        ░██          │",
+ " │         ▓█▓           ░▓█░        │",
+ " │       █▓░               ▓█▓░      │",
+ " │                                   │",
+ " │                                   │",
+ " │                                   │",
+ " └───────────────────────────────────┘"
+            });
+    
+            map.draw(null);
+
+            if(health <= 0){
+
+                map.setActionMessage("You defeated the " + name + "! (ENDING IN 5 SECONDS)");
+                map.setScreenText(new String[]{
+" ┌─:battle───────────────────────────┐",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
+" │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
+" │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
+" │  ░  ░                 ░  ░  ░  ░  │",
+" │░  ░  ░ ░   █▒ ▒▓▓▒█░  ▒   ░  ░  ░ │",
+" │ ░  ░     ▒▓▒▓▓░ ░ ▓█▒▓█    ░  ░  ░│",
+" │  ░  ░ ░   █▒ █ ░  ░   ░▒    ░  ░  │",
+" │░  ░  ░ ░   █░░ \\/░  \\/ ░█▓   ░  ░ │",
+" │ ░  ░    ░  ▒█░ /\\ ░ /\\  ░█░   ░  ░│",
+" ├─────────────█ ░ ┌──┐ ░ ░▒▓────────┤",
+" │         ░█  ▓  ░└─   ░▓█   ░      │",
+" │      ▓▒░▒▓▒ ▓░█▒    ▒█▒           │",
+" │    ▒▓░  ▓    ▒       ░█▒ ░▓█░     │",
+" │                            ▓█▓    │",
+" │                            ░      │",
+" │                                   │",
+" └───────────────────────────────────┘" 
+                    
+                });
+                map.draw(null);
+
+                player.getInput = true;
+                isAttacking = false;
+
+
+                map.setScreenType("map");
+
+                wait(5000);
+
+                map.draw(map.getObjects());
+
+                //move the enemy 
+                enemyObject.move(1000, 1000);
+            }
+            if (isAttacking) {
+                            // have a 50% chance to attack the player
+                if (Math.random() < 0.5) {
+                    map.setActionMessage("The "+ name +" lunges at you..."+" and attacks you for " + attackDamage + " damage!");
+                    player.health -= attackDamage;
+                } else {
+                    map.setActionMessage("The "+ name +" lunges at you..." + " and misses!");
+                }
+            }
+            
         }
 
-        map.setScreenText(new String[] {
-            " ┌─:battle───────────────────────────┐",
-            " │░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░ │",
-            " │ ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░│",
-            " │  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  ░  │",
-            " │░  ░  ░  ░  ░           ░  ░  ░  ░ │",
-            " │ ░  ░  ░  ░   ▓█▓▓██░    ░  ░  ░  ░│",
-            " │  ░  ░  ░   ███░ ░ ▓██▓█  ░  ░  ░  │",
-            " │░  ░  ░   █▓▓▓░ ░  ░   ░█     ░  ░ │",
-            " │ ░  ░  ░   ██ ░\\__░  __/░█▓    ░  ░│",
-            " │  ░  ░  ░   █░ <X> ░ <X> ░█░ ░  ░  │",
-            " │░  ░  ░  ░  ▓█ ░ ┌──┐ ░ ░█▓   ░  ░ │",
-            " │ ░  ░  ░     █░ ░│    ░▓█   ░  ░  ░│",
-            " ├───────────░█▓███└─  ███───────────┤",
-            " │          ░█▓▓        ░██          │",
-            " │         ▓█▓           ░▓█░        │",
-            " │       █▓░               ▓█▓░      │",
-            " │                                   │",
-            " │                                   │",
-            " │                                   │",
-            " └───────────────────────────────────┘"
-        });
 
-        map.draw(null);
-        wait(700);
-        // have a 50% chance to attack the player
-        if (Math.random() < 0.5) {
-            map.setActionMessage("The "+ name +" lunges at you..."+" and attacks you for " + attackDamage + " damage!");
-            player.health -= attackDamage;
-        } else {
-            map.setActionMessage("The "+ name +" lunges at you..." + " and misses!");
-        }
 
         if (Character.toLowerCase(input) == 'i') {
             map.setActionMessage("You inspect the " + name + ": Health: " + health + " Attack: " + attackDamage);
@@ -352,37 +401,38 @@ public void handleAttack(char input) {
 
         if (Character.toLowerCase(input) == 'b') {
 
-            // map.setActionMessage(itemList.toString());
+
+            wait(200);
             // create scanner
             Scanner scanner = new Scanner(System.in);
-            // read input
-            String inventoryInput = scanner.nextLine();
-
+            map.setActionMessage("Select an item keycode to use ( EX ):");
+            System.out.print("└─►  Input: " );
+            String inventoryInput = scanner.nextLine().trim().toUpperCase();
+            
             for (item inventoryItem : player.inventory) {
                 if (inventoryItem != null) {
                     String itemName = inventoryItem.getName();
                     String keycode = itemName.substring(0, 2).toUpperCase();
-                    if (inventoryInput.toUpperCase().equals(keycode)) {
-                        // get item type
+                    if (inventoryInput.equals(keycode)) {
                         String itemType = inventoryItem.getType();
                         if (itemType.equals("weapon")) {
                             map.setActionMessage("You equip the " + inventoryItem.getName() + ".");
                             player.damageMultiplier += inventoryItem.getProperty();
-                        }
-
-                        if (itemType.equals("potion")) {
+                        } else if (itemType.equals("potion")) {
                             map.setActionMessage("You use the " + inventoryItem.getName() + ".");
-                            player.health += inventoryItem.getProperty();
-                        }
 
-                        if (itemType.equals("armor")) {
+                            player.health += inventoryItem.getProperty();
+
+                            // remove item from inventory
+                            player.removeItem(inventoryItem.getName());
+                        } else if (itemType.equals("armor")) {
                             // TODO: implement armor
                         }
-
-                        
+                        break; // exit loop once item is found and used
                     }
                 }
             }
+            
         }
 
     }

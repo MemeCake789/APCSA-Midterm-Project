@@ -113,6 +113,8 @@ public void drawActionMenu() {
  */
 void setActionMessage(String message) {
     this.actions[1] = message;
+    drawActionMenu();
+    draw(objects);
 }
 
 /**
@@ -158,7 +160,10 @@ void setActionOptions(int num, String options) {
                         System.out.print(Colors.BRIGHT_GREEN + c + Colors.RESET);     
                     }else if (c == '▓') {
                         System.out.print(Colors.BRIGHT_GREEN+ c + Colors.RESET);
-                    }else if (c == 'X') {
+                    }else if (c == '▒'){
+                        System.out.print(Colors.BRIGHT_RED+ c + Colors.RESET);
+                    }
+                    else if (c == 'X') {
                         System.out.print(Colors.RED+ c + Colors.RESET);
 
                     } else{
@@ -219,7 +224,7 @@ void setActionOptions(int num, String options) {
 
     public ObjectStorage[] mapItems = {
         new ObjectStorage(8, 2, "♥ ", "item", "SP | Small Potion", "potion", 12),
-        new ObjectStorage(3, 15, "/ ", "item", "CS | Copper Sword", "weapon", 5),
+        new ObjectStorage(3, 15, "/ ", "item", "CS | Copper Sword", "weapon", 4),
 
     };
 
