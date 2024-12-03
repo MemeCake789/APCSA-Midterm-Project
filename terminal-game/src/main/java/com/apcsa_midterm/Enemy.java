@@ -340,6 +340,7 @@ public void handleAttack(char input) {
     
             map.draw(null);
 
+
             if(health <= 0){
 
                 map.setActionMessage("You defeated the " + name + "! (ENDING IN 5 SECONDS)");
@@ -389,6 +390,14 @@ public void handleAttack(char input) {
                 } else {
                     map.setActionMessage("The "+ name +" lunges at you..." + " and misses!");
                 }
+            }
+
+
+            if (player.health <= 0) {
+                map.setActionMessage("You died! Game over.");
+                // stop program
+                System.exit(0);
+                
             }
             
         }
