@@ -1,6 +1,11 @@
 package com.apcsa_midterm;
 
 
+
+/**
+ * Represents a player in the terminal game.
+ * The Player class manages the player's position, inventory, health, and movement within the game map.
+ */
 public class Player {
     public int X;
     public int Y;
@@ -10,8 +15,24 @@ public class Player {
     public int health;
     public int damageMultiplier;
 
+    public int[][] levelPositions = {
+        { 100, 100 },
+        { 3, 1 },
+        { 9, 2 },
+
+    };
+
     public boolean getInput = true;
 
+    /**
+     * Constructs a new Player object with the given starting position, icon, map, and health.
+     *
+     * @param startX the starting x-coordinate of the player
+     * @param startY the starting y-coordinate of the player
+     * @param icon the icon to represent the player
+     * @param map the game map the player is placed on
+     * @param health the initial health of the player
+     */
     public Player(int startX, int startY, String icon, Map map, int health) {
         this.map = map;
         playerObject = new ObjectStorage(startX, startY, icon, "player");
@@ -23,7 +44,9 @@ public class Player {
         updateInventoryDisplay();
 
     }
-
+    /**
+     * Updates the inventory display by displaying the player's inventory items.
+    */
     private void updateInventoryDisplay() {
         String[] inventoryDisplay = {
             " ┌─:inventory─────────────────────┐",
@@ -57,6 +80,12 @@ public class Player {
         map.inventory = inventoryDisplay;
     }
 
+    /**
+     * Checks if wall is at the specified coordinates.
+     * @param x the x-coordinate to check
+     * @param y the y-coordinate to check
+     * @return true if there is a wall at the specified coordinates, false otherwise
+     */
     private boolean isWallAt(int x, int y) {
         for (ObjectStorage object : map.getObjects()) {
             if (object.getX() == x && object.getY() == y && object.getType().equals("map")) {
@@ -66,6 +95,11 @@ public class Player {
         return map.isOnBorder(x, y);
     }
 
+    /**
+     * Handles the player's movement based on the input character.
+     * Checks for walls, updates the player's position, and handles item pickup.
+     * @param input the character representing the player's movement direction (w, s, a, d)
+     */
     public void handleMovement(char input) {
         if (getInput) {
             int newX = X;
@@ -92,7 +126,7 @@ public class Player {
                         // add item to inventory
                         addItem(object.getItemName(), object.getIcon(), object.getItemType(), object.getItemProperty());
                         // remove iem from map 
-                        // I had to move the object out of bounds because idk
+                        // I had to move the object out of bounds because idk how to delete it
                         object.move(-1000, -1000);
                     }
                 }
@@ -109,6 +143,14 @@ public class Player {
         return playerObject;
     }
 
+    /**
+     * Adds an item to the player's inventory.
+     * 
+     * @param name The name of the item to add.
+     * @param icon The icon representing the item.
+     * @param type The type of the item (e.g. "weapon", "armor", "potion").
+     * @param property The property value of the item.
+     */
     public void addItem(String name, String icon, String type, int property) {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] == null) {
@@ -121,6 +163,11 @@ public class Player {
         }
     }
 
+    /**
+     * Removes an item from the player's inventory.
+     * 
+     * @param name The name of the item to remove.
+     */
     public void removeItem(String name) {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] != null && inventory[i].getName().equals(name)) {
@@ -132,6 +179,9 @@ public class Player {
     }
 }
 
+/**
+ * Represents an equipable item in the game.
+ */
 class item {
     private String name;
     private String icon;

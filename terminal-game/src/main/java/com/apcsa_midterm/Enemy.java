@@ -16,6 +16,18 @@ public class Enemy {
     private int attackDamage = 0;
     private int damage = 0;
 
+    /**
+     * Constructs a new Enemy object with the specified starting coordinates, icon, game map, player reference, health, attack damage, and name.
+     *
+     * @param startX The starting X coordinate of the enemy.
+     * @param startY The starting Y coordinate of the enemy.
+     * @param icon The icon or visual representation of the enemy.
+     * @param map The game map object.
+     * @param player The player object.
+     * @param health The initial health of the enemy.
+     * @param damage The attack damage of the enemy.
+     * @param name The name of the enemy.
+     */
     public Enemy(int startX, int startY, String icon, Map map, Player player, int health, int damage, String name) {
         this.map = map;
         this.player = player;
@@ -28,6 +40,13 @@ public class Enemy {
         map.getObjects().add(enemyObject);
     }
 
+    /**
+     * Checks if there is a wall object at the specified coordinates .
+     *
+     * @param x The X coordinate to check.
+     * @param y The Y coordinate to check.
+     * @return `true` if there is a wall object at the specified coordinates, `false` otherwise.
+     */
     private boolean isWallAt(int x, int y) {
         for (ObjectStorage object: map.getObjects()) {
             if (object.getX() == x && object.getY() == y && object.getType().equals("map")) {
@@ -37,13 +56,18 @@ public class Enemy {
         return false;
     }
 
-
+    /**
+     * Checks if the enemy has the same postion as the player
+     * @return true if the enemy is colliding with the player, false otherwise
+     */
     public boolean isCollidingWithPlayer() {
         return (this.X == player.getPlayerObject().getX() &&
             this.Y == player.getPlayerObject().getY());
     }
 
-
+    /**
+     * Moves the enemy towards the player.
+    */
     public void moveTowardsPlayer() {
         int playerX = player.getPlayerObject().getX();
         int playerY = player.getPlayerObject().getY();
@@ -54,9 +78,7 @@ public class Enemy {
 
         if (playerX == X || playerY == Y) {
             if (!canMove) {
-                map.setActionMessage("You hear movement in the distance.");
-
-
+                map.setActionMessage("You hear movement in the distance."); // lets player know enemy is moving
             }
             canMove = true;
         }
@@ -146,6 +168,10 @@ public class Enemy {
     private boolean[] attackPositions = new boolean[10];
     private boolean[] cursorPositions = new boolean[10];
 
+    /**
+     * Sets the cursor position for the enemy's attack screen.
+     * @param position the position to set the cursor to (0-9)
+     */
     private void setCursorPosition(int position) {
         for (int i = 0; i < cursorPositions.length; i++) {
             cursorPositions[i] = false;
@@ -153,6 +179,13 @@ public class Enemy {
         cursorPositions[position] = true;
     }
 
+    /**
+     * Retrieves the cursor position for the enemy's attack screen.
+     *
+     * @param position the position of the cursor (0-9)
+     * @param side the side of the cursor (1 for left, 2 for right)
+     * @return the cursor position as a string, with the appropriate color formatting
+     */
     private String getCursorPosition(int position, int side) {
         if (cursorPositions[position]) {
             if (side == 1) {
@@ -166,6 +199,9 @@ public class Enemy {
         return " "; // Default return statement
     }
 
+    /**
+     * Generates a random attack position on the ui for the enemy.
+     */
     private void generateAttackPosition() {
         // for loop to update all attack positions to false
         for (int i = 0; i < attackPositions.length; i++) {
@@ -176,6 +212,13 @@ public class Enemy {
         // set attack position to true
         attackPositions[random] = true;
     }
+
+    /**
+     * Used for drawing the attack screen ui.
+     * 
+     * @param position the position to check (0-9)
+     * @return the attack position as a string, with the appropriate color formatting
+     */
     private String getAttackPosition(int position) {
         if (attackPositions[position]) {
             return Colors.BG_RED + " " + Colors.RESET;
@@ -199,6 +242,13 @@ public int getDamage() {
 
 
 
+/**
+ * Handles the player's attack input during an enemy encounter.
+ * This method generates random attack positions, checks for successful hits,
+ * updates the enemy's health, and handles the enemy's counterattack.
+ *
+ * @param input the character input from the player ('a' to attack, 'i' to inspect, 'b' to use items)
+ */
 public void handleAttack(char input) {
     if (isAttacking) {
         if (Character.toLowerCase(input) == 'a') {
@@ -367,38 +417,51 @@ public void handleAttack(char input) {
 " └───────────────────────────────────┘" 
                     
                 });
+
+                map.nextLevel();
+                
+                // Draw new map
+                map.drawMap(map.map, map.levelNumber);
+                player.getPlayerObject().move(player.levelPositions[map.levelNumber][0], player.levelPositions[map.levelNumber][1]);
                 map.draw(null);
 
+                
+                wait(5000);
+
+                
+                map.setActionMessage("You move to the next level.");
+                map.setScreenType("map");
+            
                 player.getInput = true;
                 isAttacking = false;
 
 
-                map.setScreenType("map");
 
-                wait(5000);
-
-                map.draw(map.getObjects());
-
-                //move the enemy 
-                enemyObject.move(1000, 1000);
+                
+                
             }
             if (isAttacking) {
                             // have a 50% chance to attack the player
                 if (Math.random() < 0.5) {
                     map.setActionMessage("The "+ name +" lunges at you..."+" and attacks you for " + attackDamage + " damage!");
                     player.health -= attackDamage;
+
+                    if (player.health <= 0) {
+                        map.setActionMessage("You died! Game over.");
+                        // stop program
+                        System.exit(0);
+                        
+                    }
                 } else {
                     map.setActionMessage("The "+ name +" lunges at you..." + " and misses!");
                 }
+
+
+
             }
 
 
-            if (player.health <= 0) {
-                map.setActionMessage("You died! Game over.");
-                // stop program
-                System.exit(0);
-                
-            }
+            
             
         }
 

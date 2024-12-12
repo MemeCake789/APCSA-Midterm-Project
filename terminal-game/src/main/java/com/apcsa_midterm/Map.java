@@ -3,13 +3,29 @@ package com.apcsa_midterm;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Map class represents a game map with a grid-based layout.
+ * It manages the game state including objects, player position, and display screens.
+ * 
+ * This class handles:
+ * - Map dimensions (width x height)
+ * - Level information 
+ * - Game objects 
+ * - Screen types (map view, attack view)
+ * - Player inventory
+ * - Game status and action menus *
+ */
+
+
 public class Map {
-    protected int width;
-    protected int height;
-    protected String title;
-    protected List<ObjectStorage> objects;
-    protected String screen;
-    public String statusText = "Loading...";
+    protected int width;                       // Width of grid
+    protected int height;                      // Height of grid
+    protected String title;                    // Name of grid
+    public int levelNumber;                    // Current level
+    protected List<ObjectStorage> objects;     // All items in the level
+    protected String screen;                   // Screen type (Map, Attack)
+    public String statusText = "Loading...";   // Status bar, shows level info: rooom, health, x, y
+    public String type = "map";                
     private String[] attackScreen = {  
 
      };
@@ -35,6 +51,7 @@ public class Map {
         this.height = height;
         this.title = title;
         this.screen = "map";
+        this.levelNumber = 1;
         objects = new ArrayList<>();
     }
 
@@ -45,29 +62,62 @@ public class Map {
             // Ignore
         }
     }
+    /**
+     * Sets the screen type for the Map object.
+     *
+     * @param screenType the new screen type to set
+     */
     public void setScreenType(String screenType) {
         this.screen = screenType;
     }
 
+    /**
+     * Sets the attack screen text for the Map object.
+     *
+     * @param screen the new attack screen text to set
+     */
     public void setScreenText(String[] screen) {
         this.attackScreen = screen;
     }
+    /**
+     * Clears the console screen by printing the ANSI escape sequence to move the cursor to the top-left corner and clear the entire screen.
+     */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+
+    /**
+     * Checks if current draw position is on the edge
+     * 
+     * @param x x-coordinate of the draw position
+     * @param y y-coordinate of the draw position
+     * 
+     * @return true if the draw position is on the edge, false otherwise
+     */
     public boolean isOnBorder(int x, int y) {
         return x == 0 || y == 0 || x == width - 1 || y == height - 1;
     }
 
 
+    /**
+     * Draws the status information for the game on the console.
+     */
     public void drawStatus(){
         
         System.out.println("┌─:status───────────────────────────────────────────────────────────────┐");
         System.out.println("│" +" "+ statusText + " ".repeat(70 - statusText.length()) + "│");
         System.out.println("└───────────────────────────────────────────────────────────────────────┘");
     }
+    /**
+     * Prints the border characters for the game map.
+     * The border is drawn using Unicode box-drawing characters, with the title text centered at the top.
+     * The method handles the different cases for the corners, edges, and center of the border.
+     *
+     * @param x the x-coordinate of the current draw position
+     * @param y the y-coordinate of the current draw position
+     */
     public void printBorder(int x, int y) {
         if (y == 0 && x >= 2 && x < 6 + title.length()) {
             if (x == 2) {
@@ -94,6 +144,9 @@ public class Map {
         System.out.print(Colors.WHITE + borderChar + Colors.RESET);
     }
 
+/**
+ * Draws the action menu on the console, displaying the action options and the current action message.
+ */
 public void drawActionMenu() {
     System.out.println(Colors.WHITE + actionMenu[0] + Colors.RESET);
     for (int i = 0; i < actions.length; i++) {
@@ -188,7 +241,13 @@ void setActionOptions(int num, String options) {
         
         
     }
-
+/**
+ * Gets the cell texture at the specified coordinates in the map.
+ * @param x The x-coordinate of the cell.
+ * @param y The y-coordinate of the cell.
+ * @param objects The list of objects in the map.
+ * @return The texture of the cell, or null if the cell is empty.
+ */
     public String getCell(int x, int y, List<ObjectStorage> objects) {
         for (ObjectStorage object : objects) {
             if (object.getX() == x && object.getY() == y) {
@@ -198,33 +257,135 @@ void setActionOptions(int num, String options) {
         return null;
     }
 
+    
     // Map specific code
-    public String[][] map = {
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", "█", "█", "▄", "▄", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", "█", "░", "░", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▄", "▄", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", " ", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "░", "░", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", "█", "▄", "▄", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "█", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "▄", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", " ", " ", "█", " ", " ", " ", " ", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "█", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "▀", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
-        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", "█", "█", "█", "█", "█", " ", " "},
-        {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "}
+    public String[][][] level = {
+        {
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "}
+
+        },
+
+        {
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", "█", "█", "▄", "▄", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", "█", "░", "░", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▄", "▄", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", " ", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "░", "░", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", "█", "▄", "▄", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "█", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "▄", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", " ", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "█", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "▀", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", "█", "█", "█", "█", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "}
+        },
+
+        {
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", "█", "█", "█", "█", "█", "█", " ", "▓", " ", "█", " ", "█", "▓", "█", "▓", "█", "█", "█", " "},
+            {" ", "█", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", " ", " ", " ", " ", "█", "▓", " "},
+            {" ", "▓", " ", " ", " ", " ", "█", " ", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", "█", " "},
+            {" ", "▓", " ", " ", " ", " ", "█", " ", "▓", " ", "█", " ", " ", " ", " ", " ", " ", "▓", "▓", " "},
+            {" ", "█", " ", " ", " ", " ", "█", " ", "█", " ", "█", " ", "█", " ", " ", " ", " ", "▓", "█", " "},
+            {" ", "█", "█", "█", "▓", "█", "█", " ", "█", " ", "█", " ", "█", "█", "▓", "█", "▓", "█", "▓", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {"█", "█", "█", " ", "█", "▓", "█", "█", "▓", " ", "█", "█", "▓", "█", " ", "█", "▓", "█", "█", "▓"},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {"▓", "▓", "█", " ", "█", "█", "▓", "█", "▓", " ", "█", "▓", "█", "▓", " ", "█", "▓", "█", "▓", "█"},
+            {" ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", "█", "█", "█", " ", "▓", "▓", " ", "▓", " ", "▓", " ", "▓", "█", "▓", "▓", "█", "█", "█", " "},
+            {" ", "▓", " ", " ", " ", " ", "▓", " ", "▓", " ", "▓", " ", "▓", " ", " ", " ", " ", "█", "█", " "},
+            {" ", "█", " ", " ", " ", " ", "▓", " ", "█", " ", "▓", " ", "▓", " ", " ", " ", " ", "█", "▓", " "},
+            {" ", "▓", " ", " ", " ", " ", "█", " ", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "▓", "▓", " "},
+            {" ", "█", "█", "█", "▓", "▓", "▓", " ", "▓", " ", "▓", " ", "█", "█", "█", " ", "█", "█", "▓", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "}
+        }
+        ,
+
+        {
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", "█", "█", "▄", "▄", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", "█", "░", "░", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▄", "▄", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", " ", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "░", "░", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", "█", "▄", "▄", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "▀", "▀", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "█", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "▄", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", " ", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "█", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", " ", "█", "█", "▀", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", "█", " ", " ", " ", " ", "█", " ", " "},
+            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "█", " ", "█", "█", "█", "█", "█", "█", " ", " "},
+            {" ", "▓", "▓", " ", "▓", "▓", " ", "▓", "▓", " ", "█", " ", " ", " ", " ", " ", " ", " ", " ", " "}
+        },
+        
+
     };
 
-    public ObjectStorage[] mapItems = {
-        new ObjectStorage(8, 2, "♥ ", "item", "SP | Small Potion", "potion", 12),
-        new ObjectStorage(3, 15, "/ ", "item", "CS | Copper Sword", "weapon", 4),
+    public String[][] map = {
+    };
+
+    /**
+     * Clears the map by setting all elements to a space character.
+     */
+    public void clearMap() {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                map[i][j] = " ";
+            }
+        }
+    }
+
+    /**
+     * Iterates to the next map array
+     */
+    public void nextLevel() {
+        getObjects().clear(); 
+        clearMap();
+
+
+        levelNumber++;
+
+    }
+
+    
+
+    public ObjectStorage[][] mapData = {     
 
     };
 
@@ -235,19 +396,26 @@ void setActionOptions(int num, String options) {
 
 
 
-    public void drawMap(String[][] map) {
+    /**
+     * Draws the map on the screen by adding walls and other objects to the game world.
+     *
+     * @param map    the 2D array representing the map
+     * @param mapNum the index of the current map in the level array
+     */
+    public void drawMap(String[][] map, int mapNum) {
         // add walls to map
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (!map[y][x].equals(" ")) {
-                    objects.add(new ObjectStorage(x, y, map[y][x] + map[y][x], "map"));
+                if (!level[mapNum][y][x].equals(" ")) {
+                    objects.add(new ObjectStorage(x, y, level[mapNum][y][x] + level[mapNum][y][x], "map"));
+                    for (ObjectStorage[] objectArray : mapData) {
+                        for (ObjectStorage object : objectArray) {
+                            objects.add(object);
+                        }
+                    }
                 }
             }
         }
-
-        // add mapItems to map
-        for (ObjectStorage object : mapItems) {
-            objects.add(object);
-        }
     }
+
 }
